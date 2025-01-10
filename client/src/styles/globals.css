@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css?family=Concert One');
+@import url("https://fonts.googleapis.com/css2?family=Century Gothic:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Livvic:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap");
+
+:root {
+  /* fonts */
+  --font-century-gothic: "Century Gothic";
+  --font-livvic: Livvic;
+  --font-mistral: Mistral;
+  --font-johnstown-demo: "Johnstown Demo";
+  --font-Sofia: "Sofia";
+  --font-inter: Inter;
+
+  /* font sizes */
+  --font-size-lg: 18px;
+  --font-size-mini: 15px;
+  --font-size-xl: 20px;
+  --font-size-51xl: 60px;
+  --font-size-11xl: 30px;
+  --font-size-31xl: 50px;
+  --font-size-base: 16px;
+  --font-size-21xl: 40px;
+  --font-size-5xl: 24px;
+  --font-size-sm: 14px;
+  --font-size-3xl: 22px;
+  --font-size-12: 12px;
+
+  /* Colors */
+  --color-darkslategray-100: #244441;
+  --color-darkslategray-200: #1d3133;
+  --color-white: #fff;
+  --color-goldenrod: #f7c35f;
+  --color-gray-100: #1a1a1a;
+  --color-gray-200: rgba(255, 255, 255, 0.25);
+  --color-gray-300: rgba(255, 255, 255, 0.8);
+  --color-gray-400: rgba(255, 255, 255, 0.2);
+  --color-darkolivegreen: #6d8c54;
+  --color-lightgray-100: #cfcece;
+  --color-lightgray-200: #ccc;
+
+  /* Gaps */
+  --gap-31xl: 2vw;
+  --gap-11xl: 30px;
+  --gap-3xs: 10px;
+  --gap-15: 15px;
+  --gap-36xl: 55px;
+  --gap-xl: 20px;
+  --gap-6xs: 7px;
+  --gap-21xl: 40px;
+  --gap-6xl: 25px;
+
+  /* Paddings */
+  --padding-6xl: 25px;
+  --padding-31xl: 50px;
+  --padding-3xl: 22px;
+
+  /* Border radiuses */
+  --br-xl: 20px;
+  --br-3xs: 10px;
+  --br-8xs: 5px;
+  --br-31xl: 50px;
+  --br-11xl: 30px;
+}
+/* *{
+  box-sizing: border-box;
+} */
+
+body {
+  padding: 0;
+  margin: 0 !important;
+  background-color: var(--color-darkslategray-200) !important;
+}
+
+a {
+  color: var(--color-white) !important;
+  text-decoration: none !important;
+}
+
+.underline-on-hover:hover {
+  text-decoration: underline !important;
+}
+
+
+
+.styled-scrollbar {
+  scrollbar-width: normal;
+  scrollbar-color: #777 #555;
+}
+
+.styled-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #7775;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
+
+.styled-scrollbar::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #5555;
+}
+
+.styled-scrollbar::-webkit-scrollbar-track:hover {
+  background-color: #555;
+}
+
+
+
+.admin-dashboard .side-bar .nav-btns.active {
+  background-color: #6d8c54 !important;
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns.active svg {
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns.active p {
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns.active .side-style {
+  background-color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns:hover {
+  background-color: #6d8c54 !important;
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns:hover svg {
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns:hover p {
+  color: #f7c35e !important
+}
+
+.admin-dashboard .side-bar .nav-btns:hover .side-style {
+  background-color: #f7c35e !important
+}
