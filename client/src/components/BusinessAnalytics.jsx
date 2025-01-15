@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDemoData } from '@mui/x-data-grid-generator';
-import ReactApexChart from 'react-apexcharts'
+// import ReactApexChart from 'react-apexcharts'
 
 
 import React, { Component } from 'react';
@@ -258,16 +258,16 @@ const BusinessAnalytics = (props) => {
       <div className="ba-charts">
 
           
-          <Stack direction='row' gap={2}>
+          {/* <Stack direction='row' gap={2}>
           <div style={{ padding: '0 20px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
-                    <ReactApexChart options={topExpenseSectors.options} series={topExpenseSectors.series} type="pie" width={420} />
+                    <ReactApexChart options={topExpenseSectors.options} series={topExpenseSectors.series} type="pie" width={400} />
                 </div>
 
                 <div style={{ padding: '0 20px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
-                    <ReactApexChart options={topSellingProduct.options} series={topSellingProduct.series} type="bar" height={350} width={500} />
+                    <ReactApexChart options={topSellingProduct.options} series={topSellingProduct.series} type="bar" height={350} width={400} />
 
                 </div>
-          </Stack>
+          </Stack> */}
 
 
           

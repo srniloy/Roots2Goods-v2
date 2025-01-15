@@ -84,7 +84,7 @@ const Signin = () => {
       alertType: alertType[response.status] || "info"
     });
     if (response.status === 200) {
-      router.push(`/users/${user_type.toLowerCase()}-dashboard`)
+      router.push(`/users/${user_type.toLowerCase()}/dashboard`)
     }
   }
 

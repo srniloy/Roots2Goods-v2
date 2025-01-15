@@ -456,12 +456,13 @@ body {
   background-color: var(--color-bg-secondary);
   border-radius: 10px;
   justify-content: space-between;
+  align-items: center;
   padding: 8px 10px;
 }
 
 .frmr-project-tab-wrapper {
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  /* grid-row-gap: 10px; */
   justify-content: center;
   align-items: center;
 }
@@ -472,6 +473,7 @@ body {
   cursor: pointer;
   border-radius: 5px;
   padding: 10px 20px;
+  margin: 0;
   font-family: Century Gothic, sans-serif;
   font-style: normal;
   text-decoration: none;

@@ -62,7 +62,7 @@ export const HandleSignin = async (data) => {
                 value: res.data.resData.token,
                 secure: true,
                 httpOnly: true,
-                maxAge: 60 * 30
+                maxAge: 60 * 60
             })
             response = {
                 message: res.data.message,
