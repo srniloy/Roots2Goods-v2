@@ -33,7 +33,7 @@ const BuyProducts = (props) => {
                   BuyProjectTabButtonAction(e)
                   setTabType(<OfferUpdates/>)
                 }}
-                >Sent Offers</a>
+                >Offers Update</a>
                 </div>
             </div>
         </div>

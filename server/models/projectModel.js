@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const schema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
     title: String,
     product_name: String,
     seedling: Number,
@@ -31,6 +31,15 @@ const salesSchema = new mongoose.Schema({
     status: String,
     project_id: {type: mongoose.Schema.Types.ObjectId, ref: 'farmer-projects'}
 })
+
+
+
+
+// ============================================== Traders =============================================================
+
+
+
+
 
 
 const offerSchema = new mongoose.Schema({
@@ -72,22 +81,45 @@ const stockSchema = new mongoose.Schema({
     amount: Number,
     transport_cost: Number,
     status: String,
+    collection_date: String,
     seller_name: String,
+    slot: Number,
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
     order_id: {type: mongoose.Schema.Types.ObjectId, ref: 'orders'}
 }, {timestamps: true})
 
 
 
+const traderSalesSchema = new mongoose.Schema({
+    quantity: Number,
+    price: Number,
+    amount: Number,
+    collection_date: String,
+    interested: Number,
+    status: String,
+    product_name: String,
+    stock_id: {type: mongoose.Schema.Types.ObjectId, ref: 'stocks'}
+})
 
 
-const ProjectModel = mongoose.model("farmer-projects", schema)
+
+
+
+
+
+
+
+const ProjectModel = mongoose.model("farmer-projects", projectSchema)
 const ProjectExpenseModel = mongoose.model("farmer-project-expenses", expenseSchema)
 const ProjectSalesModel = mongoose.model("farmer-project-sales", salesSchema)
+
+// ========================================================= Trader ==========================================
+
 const OfferModel = mongoose.model("offers", offerSchema)
 const OrderModel = mongoose.model("orders", orderSchema)
 const TransportModel = mongoose.model("transports", transportSchema)
 const StockModel = mongoose.model("stocks", stockSchema)
+const TraderSalesModel = mongoose.model("trader-product-sales", traderSalesSchema)
 
-export {ProjectModel, ProjectExpenseModel, ProjectSalesModel, OfferModel, OrderModel, TransportModel, StockModel};
+export {ProjectModel, ProjectExpenseModel, ProjectSalesModel, OfferModel, OrderModel, TransportModel, StockModel, TraderSalesModel};
 

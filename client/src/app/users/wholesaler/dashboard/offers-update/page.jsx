@@ -70,7 +70,7 @@ const columns = [
 
 
 
-const OfferUpdates = () => {
+const OfferUpdates = (props) => {
     const {user, setUser} = useContext(UserContext)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);

@@ -17,15 +17,15 @@ export const GetAvailableProducts = async (req, res) => {
     try {
         // const existance = await UserModel.findOne({name: userModel.phone})
 
-        const products = await ProjectSalesModel.find({ status: 'Pending' })
+        const products = await TraderSalesModel.find({ status: 'Ready to sell' })
         .populate({
-            path: 'project_id',
-            select: 'title product_name img',
+            path: 'stock_id',
             populate: {
-              path: 'created_by',
+              path: 'owner',
               select: 'name address'
             },
           });
+          console.log(products);
         // console.log(data.project_id.created_by);
         // const projects = await ProjectModel.find({created_by: user_id})
         // console.log(projects);
@@ -42,7 +42,7 @@ export const GetProductDetails = async (req, res) => {
         const {sales_id} = req.body
         console.log("here-------------------------");
         console.log(sales_id);
-        const product = await ProjectSalesModel.findOne({_id: sales_id})
+        const product = await TraderSalesModel.findOne({_id: sales_id})
         .populate({
             path: 'project_id',
             select: 'title product_name cover_img',

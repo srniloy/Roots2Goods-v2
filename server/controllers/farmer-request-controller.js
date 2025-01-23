@@ -246,8 +246,8 @@ export const UpdateExpense = async (req, res) => {
 
 export const AddProjectSales = async (req, res) => {
     try {
-        const { quantity, price, amount, collection_date, status, project_id } = req.body
-        const salesModel = new ProjectSalesModel({quantity, price, amount, collection_date, status, project_id})
+        const { quantity, price, collection_date, status, project_id } = req.body
+        const salesModel = new ProjectSalesModel({quantity, price, amount: parseInt(quantity*price), collection_date, status, project_id})
         await salesModel.save()
         return res.json({ message: "Sales added Successfully", resData: salesModel })
     } catch (error) {

@@ -6,6 +6,7 @@ import cors from 'cors'
 import authRouter from './routes/authRouter.js'
 import farmerRouter from './routes/farmerRouter.js'
 import traderRouter from './routes/traderRouter.js'
+import wholesalerRouter from './routes/wholesalerRouter.js'
 
 
 
@@ -18,6 +19,7 @@ configDotenv()
 
 const PORT = process.env.PORT
 const MONGO_URL = process.env.MONGO_URL
+const MONGO_SERVER_URL = process.env.MONGO_SERVER_URL
 
 app.get('/uploads*', function (req, res) {
     var path = req.params[0] ? req.params[0] : '';
@@ -25,7 +27,7 @@ app.get('/uploads*', function (req, res) {
     res.sendFile(path, { root: './uploads' });
 });
 
-mongoose.connect(MONGO_URL)
+mongoose.connect(MONGO_SERVER_URL)
     .then(() => {
         console.log("Database Connected")
         app.listen(PORT, () => console.log(`Server is runnting at ${PORT}`))
@@ -46,3 +48,4 @@ app.post('/api/create-account', (req, res) => {
 app.use('/auth', authRouter)
 app.use('/farmer', farmerRouter)
 app.use('/trader', traderRouter)
+app.use('/wholesaler', wholesalerRouter)

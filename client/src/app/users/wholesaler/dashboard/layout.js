@@ -6,7 +6,7 @@ import DashboardLayout from './_components/Dashboard_Layout';
 
 
 export const metadata = {
-  title: 'Trader Dashboard - Roots2Goods',
+  title: 'Wholesaler Dashboard - Roots2Goods',
   description: 'This is an Agricultural Supply Chain Management System',
 }
 

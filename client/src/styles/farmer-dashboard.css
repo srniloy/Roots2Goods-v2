@@ -397,7 +397,7 @@ body {
   margin-top: 10px;
   margin-bottom: 3px;
   font-family: Gothicb, sans-serif;
-  font-size: 30px;
+  font-size: 22px !important;
 }
 
 .frmr-project-detail-main {
@@ -545,6 +545,7 @@ body {
 .fpd-project-detail-heading {
   color: var(--yellow);
   font-size: 45px;
+  margin-top: 15px;
   font-family: 'Gothicb';
   font-weight: 700;
 }

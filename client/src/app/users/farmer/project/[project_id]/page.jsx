@@ -124,6 +124,24 @@ const ProjectDetails = ({ params }) => {
 
   }
 
+  const addExpense = async () => {
+    console.log(project._id);
+    console.log(addExpenseData);
+    const res = await AddProjectExpense({ expense: addExpenseData, project_id: project?._id })
+    if (res.status == 200) {
+      console.log(res.data);
+      setExpenses()
+      setAddExpenseData({
+        sector: '',
+        unit: '',
+        cost: '',
+        date: '',
+        project_id: '',
+      })
+    }
+  }
+
+
 
   const setExpenses = async ()=>{
     const res = await GetProjectExpenses(project_id)
@@ -144,6 +162,32 @@ const ProjectDetails = ({ params }) => {
     }
 
   }
+
+
+
+  
+  const addNewSales = async () => {
+    console.log(project._id);
+    console.log(addSalesData);
+    const res = await AddProjectSales({ sales: addSalesData, project_id: project?._id })
+    if (res.status == 200) {
+      console.log(res.data);
+      setSales()
+      setAddSalesData({
+        quantity: '',
+        price: '',
+        collection_date: '',
+        status: 'Pending',
+        project_id: '',
+      })
+    }
+    else{
+      alert(res.message)
+    }
+  }
+
+
+  
 
   const setSales = async ()=>{
     const res = await GetProjectSales(project_id)
@@ -233,42 +277,7 @@ const ProjectDetails = ({ params }) => {
     }
   }
 
-  const addExpense = async () => {
-    console.log(project._id);
-    console.log(addExpenseData);
-    const res = await AddProjectExpense({ expense: addExpenseData, project_id: project?._id })
-    if (res.status == 200) {
-      console.log(res.data);
-      setExpenses()
-      setAddExpenseData({
-        sector: '',
-        unit: '',
-        cost: '',
-        date: '',
-        project_id: '',
-      })
-    }
-  }
 
-  const addNewSales = async () => {
-    console.log(project._id);
-    console.log(addSalesData);
-    const res = await AddProjectSales({ sales: addSalesData, project_id: project?._id })
-    if (res.status == 200) {
-      console.log(res.data);
-      setSales()
-      setAddSalesData({
-        quantity: '',
-        price: '',
-        collection_date: '',
-        status: 'Pending',
-        project_id: '',
-      })
-    }
-    else{
-      alert(res.message)
-    }
-  }
 
 
 

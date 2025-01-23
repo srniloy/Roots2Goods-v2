@@ -15,7 +15,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import TextField from '@mui/material/TextField';
 import { height } from '@mui/system';
 import { SubLoader } from '@app/loading';
-import { GetAvailableProducts } from '@services/td-service/dashboard_service';
+import { GetAvailableProducts } from '@services/wd-service/dashboard_service';
 
 
 const productsImg = [
@@ -34,7 +34,7 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 
 
-const AgroProducts = () => {
+const AgroProducts = (props) => {
   const [loaderOpen, setLoaderOpen] = React.useState(true)
   const [isSubLoad, setIsSubLoad] = React.useState(false)
 
@@ -151,7 +151,7 @@ const AgroProducts = () => {
                   <CardMedia
                     component="img"
                     height="180"
-                    image={`${SERVER_URL}/${product?.project_id.img}`}
+                    image={`/images/${(product?.stock_id.product_name)?.toLowerCase()}.jpg`}
                     alt="Product Image"
                     style={{
                       borderRadius: '20px'
@@ -159,17 +159,17 @@ const AgroProducts = () => {
                   />
                   <CardContent>
                     <Typography style={{fontFamily: 'Roboto-Bold', fontWeight: 700}} variant="h5" component="div">
-                      {product?.project_id.title}
+                      {product?.product_name}
                     </Typography>
                     <Typography variant="body2" letterSpacing={'.5px'} color="text.secondary">
-                      <b>Product: </b>{product?.project_id.product_name}<br/>
+                      <b>Product: </b>{product?.product_name}<br/>
                       <b>Quantity: </b>{product?.quantity} kg <br/>
                       <b>Price: </b>{product?.price} taka (per kg) <br/>
-                      <b>Location: </b> {product?.project_id.created_by.address}<br/>
+                      <b>Location: </b> {product?.stock_id.owner.address}<br/>
                       <b>Harvest time: </b> {product?.collection_date} <br/>
                     </Typography>
                     <Typography variant="body2" color="text.secondary" align='right' style={{marginTop: '5px'}}>
-                      By <Link href={'/farmer-dashboard'}> {product?.project_id.created_by.name} </Link><br/>
+                      By <Link href={'/farmer-dashboard'}> {product?.stock_id.owner.name} </Link><br/>
                     </Typography>
                   </CardContent>
               </CardActionArea>

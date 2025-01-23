@@ -10,7 +10,7 @@ export async function middleware(request) {
     //         return NextResponse.redirect(new URL('/dashboard', request.url))
     //     }
     // }
-    if (request.nextUrl.pathname.startsWith('/users/farmer/dashboard') || request.nextUrl.pathname.startsWith('/users/farmer/project')) {
+    if (request.nextUrl.pathname.startsWith('/users/farmer')) {
         const cookie = request.cookies.get('FarmerToken')
 
         if (!cookie) {
@@ -24,13 +24,26 @@ export async function middleware(request) {
         })
         return response
     }
-    else if (request.nextUrl.pathname.startsWith('/users/trader/dashboard') || request.nextUrl.pathname.startsWith('/users/trader/product')) {
+    else if (request.nextUrl.pathname.startsWith('/users/trader')) {
         const cookie = request.cookies.get('TraderToken')
         if (!cookie) {
             return NextResponse.redirect(new URL('/auth/signin', request.url))
         }
         const response = NextResponse.next()
         response.cookies.set('TraderToken', cookie.value, {
+            maxAge: 60 * 60, // 60 minutes
+            httpOnly: true,
+            secure: true,
+        })
+        return response
+    }
+    else if (request.nextUrl.pathname.startsWith('/users/wholesaler')) {
+        const cookie = request.cookies.get('WholesalerToken')
+        if (!cookie) {
+            return NextResponse.redirect(new URL('/auth/signin', request.url))
+        }
+        const response = NextResponse.next()
+        response.cookies.set('WholesalerToken', cookie.value, {
             maxAge: 60 * 60, // 60 minutes
             httpOnly: true,
             secure: true,

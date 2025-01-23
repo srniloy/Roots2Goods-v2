@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from 'multer';
-import { AddNewOffer, AddOrders, ConfirmOrder, GetAvailableProducts, GetOffersList, GetOrderInfo, GetProductDetails, GetStockedProducts, GetStockedSlots, OfferCancellation } from "../controllers/trader-request-controller.js";
+import { AddNewOffer, AddNewProductSale, AddOrders, ConfirmOrder, DeleteSales, GetAvailableProducts, GetOffersList, GetOrderInfo, GetProductDetails, GetProductSales, GetStockedProducts, GetStockedSlots, OfferCancellation } from "../controllers/trader-request-controller.js";
 
 
 const traderRouter = Router()
@@ -27,5 +27,13 @@ traderRouter.post('/confirm-order', ConfirmOrder)
 traderRouter.post('/get-stocked-products', GetStockedProducts)
 
 traderRouter.post('/get-stocked-slots', GetStockedSlots)
+
+
+traderRouter.post('/add-product-sales', AddNewProductSale)
+
+traderRouter.post('/get-product-sales', GetProductSales)
+
+traderRouter.post('/delete-sales', DeleteSales)
+
 
 export default traderRouter

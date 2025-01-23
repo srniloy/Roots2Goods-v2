@@ -82,14 +82,15 @@ const ProjectLayout = ({ children }) => {
 
 
     const products = [
-        { label: 'Tometo' },
+        { label: 'Tomato' },
         { label: 'Onion' },
         { label: 'Eggplant' },
-        { label: 'Carrots' },
+        { label: 'Carrot' },
         { label: 'Cabbage' },
-        { label: 'Chilli' },
+        { label: 'Chili' },
         { label: 'Watermelon' },
         { label: 'Potato' },
+        { label: 'Sweet Potato' },
     ]
     const [projectCreateData, setProjectCreateData] = React.useState({
         title: '',
