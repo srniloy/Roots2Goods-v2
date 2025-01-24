@@ -2,7 +2,7 @@ import UserModel from "../models/userModel.js"
 import bcrypt from 'bcrypt'
 import { configDotenv } from "dotenv"
 import jwt from 'jsonwebtoken'
-import {OfferModel, OrderModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel, StockModel, TraderSalesModel, TransportModel} from "../models/projectModel.js"
+import {OfferModel, OrderModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel, StockModel, TraderSalesModel, TransportModel, WholesalerOfferModel, WholesalerOrderModel, WholesalerStockModel} from "../models/projectModel.js"
 import fs from 'fs'
 
 
@@ -40,19 +40,19 @@ export const GetAvailableProducts = async (req, res) => {
 export const GetProductDetails = async (req, res) => {
     try {
         const {sales_id} = req.body
-        console.log("here-------------------------");
+        console.log("here======================");
         console.log(sales_id);
         const product = await TraderSalesModel.findOne({_id: sales_id})
         .populate({
-            path: 'project_id',
-            select: 'title product_name cover_img',
+            path: 'stock_id',
+            select: 'product_name',
             populate: {
-              path: 'created_by',
+              path: 'owner',
               select: 'name address phone createdAt'
             },
           });
         // const projects = await ProjectModel.find({created_by: user_id})
-        // console.log(projects);
+        console.log(product);
         return res.json({ message: "Operation Success", resData: { product } })
 
     } catch (error) {
@@ -65,9 +65,10 @@ export const GetProductDetails = async (req, res) => {
 
 export const AddNewOffer = async (req, res) => {
   try {
-      const { quantity ,price, offered_by, sales_id, project_id } = req.body
+      const { quantity ,price, offered_by, sales_id, stock_id } = req.body
+      console.log("====================================");
       console.log(req.body);
-      const offerModel = new OfferModel({quantity, price, amount: quantity*price, offered_by, project_id, sales_id, status: 'Pending'})
+      const offerModel = new WholesalerOfferModel({quantity: parseInt(quantity), price, amount: parseInt(quantity)*parseInt(price), offered_by, stock_id, sales_id, status: 'Pending'})
       await offerModel.save()
       return res.json({ message: "Offer added Successfully", resData: {} })
   } catch (error) {
@@ -80,12 +81,12 @@ export const AddNewOffer = async (req, res) => {
 export const GetOffersList = async (req, res) => {
   try {
       const {offered_by} = req.body
-      const offers = await OfferModel.find({offered_by: offered_by, status: {$in: ['Pending', 'Accepted']}})
+      const offers = await WholesalerOfferModel.find({offered_by: offered_by, status: {$in: ['Pending', 'Waiting', 'Approved']}})
       .populate({
-          path: 'project_id',
+          path: 'stock_id',
           select: 'product_name',
           populate: {
-            path: 'created_by',
+            path: 'owner',
             select: 'name'
           }
       })
@@ -102,6 +103,8 @@ export const GetOffersList = async (req, res) => {
 }
 
 
+
+
 export const OfferCancellation = async (req, res) => {
   try {
       const {offer_id} = req.body
@@ -114,6 +117,37 @@ export const OfferCancellation = async (req, res) => {
       }else{
         await OfferModel.deleteOne({_id: offer_id})
       }
+
+      return res.json({ message: "Operation Success", resData: {} })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+export const UpdateStatusOnOfferAcceptance = async (req, res) => {
+  try {
+      const {offer_id} = req.body
+      const offer = await WholesalerOfferModel.findOneAndUpdate({_id: offer_id}, {status: 'Waiting'}, { new: true })
+
+      const sales = await TraderSalesModel.findOneAndUpdate({_id: offer.sales_id}, {status: 'Processing'}, { new: true })
+
+      return res.json({ message: "Operation Success", resData: {} })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+export const ApproveOfferStatus = async (req, res) => {
+  try {
+      const {offer_id} = req.body
+      console.log(offer_id);
+      const offer = await WholesalerOfferModel.findOneAndUpdate({_id: offer_id}, {status: 'Approved'}, { new: true })
 
       return res.json({ message: "Operation Success", resData: {} })
 
@@ -195,7 +229,9 @@ export const ConfirmOrder = async (req, res) => {
 export const GetStockedProducts = async (req, res) => {
   try {
       const { user_id } = req.body
-      const data = await StockModel.find({ owner: user_id})
+      console.log("--------------------------------------------------------------");
+      console.log(user_id);
+      const data = await WholesalerStockModel.find({ owner: user_id})
       
       const groupedData = Object.values(
         data.reduce((acc, item) => {
@@ -236,9 +272,8 @@ export const GetStockedSlots = async (req, res) => {
   try {
       const { product_name, user_id } = req.body
       console.log(req.body);
-      const order = await StockModel.find({ product_name: product_name, owner: user_id})
-
-
+      const order = await WholesalerStockModel.find({ product_name: product_name, owner: user_id})
+      console.log(order);
       return res.json({ message: "Operation Successful", resData: order })
   } catch (error) {
       console.log(error);
@@ -313,4 +348,74 @@ export const DeleteSales = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: "internal server error" })
     }
+}
+
+
+
+
+export const GetTransactions = async (req, res) => {
+  try {
+      const {user_id} = req.body
+      const orders = await WholesalerOrderModel.find({ $or: [{buyer_id: user_id}, {seller_id: user_id}]})
+      .populate(['buyer_id', 'seller_id', 'sales_id', 'stock_id', 'offer_id']).sort({createdAt: -1})
+      return res.json({ message: "Operation Success", resData: orders })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+
+export const GetFilterSelestionData = async (req, res) => {
+  try {
+      const addresses = await UserModel.find().select('address')
+      const allProducts = await StockModel.find().select('product_name')
+      const allFarmers = await UserModel.find({type: "Trader"}).select('name')
+      const locations = [...new Set(addresses.map(item => item.address))];
+      const products = [...new Set(allProducts.map(item => item.product_name))];
+      const farmers = [...new Set(allFarmers.map(item => item.name))];
+
+      return res.json({ message: "Operation Success", resData: {locations, products, farmers} })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+export const GetFilteredAvailableData = async (req, res) => {
+  try {
+      // const existance = await UserModel.findOne({name: userModel.phone})
+      const {farmer, location, product} = req.body
+      console.log(farmer);
+      console.log(location);
+      console.log(product);
+      // if(farmer.length > 0 && location.length > 0 && product.length > 0){
+
+      // }else if()
+      const products = await TraderSalesModel.find({ status: 'Ready to sell' })
+      .populate({
+          path: 'stock_id',
+          populate: {
+            path: 'owner',
+            select: 'name address'
+          },
+        });
+      const filteredProducts = products.filter(item => {
+        const matchesLocation = location.length > 0 ? item.stock_id.owner.address === location : true;
+        const matchesProductName = product.length > 0 ? item.stock_id.product_name === product : true;
+        const matchesUserName = farmer.length > 0 ? item.stock_id.owner.name === farmer : true;
+      
+        return matchesLocation && matchesProductName && matchesUserName;
+      });
+      
+      return res.json({ message: "Operation Success", resData: filteredProducts })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
 }

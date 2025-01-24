@@ -18,11 +18,11 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import { GetProductDetails } from '@services/td-service/dashboard_service';
 import moment from 'moment';
 import ProductSalesTable from '../_components/product_sales_table';
 import UserContext from '@context/userContext';
 import { GetUserData } from '@services/fd-service/dashboard_service';
+import { GetProductDetails } from '@services/wd-service/dashboard_service';
 
 
 const productsImg = [
@@ -68,7 +68,7 @@ const ProjectDetails = ({params}) => {
   }
 
     async function GetUser() {
-      const userData = await GetUserData("Trader");
+      const userData = await GetUserData("Wholesaler");
       setUser(userData)
     }
 
@@ -89,29 +89,15 @@ const ProjectDetails = ({params}) => {
 
       <div className="fpd-cover-img-box">
       <div style={{backgroundColor: '#00000050', height: '300px', width: '100%', position: 'absolute'}}></div>
-      <img src={`${SERVER_URL}/${productDetails?.project_id?.cover_img}`}
+      <img src={`/images/${(productDetails?.stock_id?.product_name || '').toLowerCase()}-cover.jpg`}
       
       style={{height: '100%', width: '100%', objectFit: 'cover'}} alt="" srcSet="" />
       </div>
       <div className="w-layout-blockcontainer fpd-other-part-container w-container">
-        <h1 className="fpd-project-detail-heading" style={{marginTop: '10px'}}>{productDetails?.project_id?.title} </h1>
+        <h1 className="fpd-project-detail-heading" style={{marginTop: '10px'}}>{productDetails?.stock_id?.product_name} </h1>
         <div className="fpd-basic-info" style={{marginTop: '50px', marginBottom: '50px'}}>
           <Stack direction={'row'} gap={'20px'}>
 
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                  <div style={{backgroundColor: '#244441' ,
-                  display: 'flex',
-                  gap: '10px',
-                  padding: '20px 30px',
-                  borderRadius: '10px'
-                  }}>
-                    <InventoryIcon fontSize='large' style={{color: '#f7c35f'}}/>
-                    <div>
-                      <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Product Type</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.project_id?.product_name} </p>
-                    </div>
-                  </div>
-                </div>
 
 
 
@@ -124,8 +110,8 @@ const ProjectDetails = ({params}) => {
                   }}>
                     <AccountBoxIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
-                      <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Farmer Name</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.project_id?.created_by?.name}</p>
+                      <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Trader Name</h6>
+                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.stock_id?.owner?.name}</p>
                     </div>
                   </div>
                 </div>
@@ -140,7 +126,7 @@ const ProjectDetails = ({params}) => {
                     <LocationOnIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Location</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.project_id?.created_by?.address}</p>
+                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.stock_id?.owner?.address}</p>
                     </div>
                   </div>
                 </div>
@@ -156,7 +142,7 @@ const ProjectDetails = ({params}) => {
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Experience</h6>
                       <p style={{margin: '0', color: '#eee'}}>{
-                        moment.utc(productDetails?.project_id?.created_by?.createdAt).fromNow(true)
+                        moment.utc(productDetails?.stock_id?.owner?.createdAt).fromNow(true)
                     }</p>
                     </div>
                   </div>
@@ -173,7 +159,7 @@ const ProjectDetails = ({params}) => {
                     <ContactPhoneIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Phone Number</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.project_id?.created_by?.phone}</p>
+                      <p style={{margin: '0', color: '#eee'}}>{productDetails?.stock_id?.owner?.phone}</p>
                     </div>
                   </div>
                 </div>

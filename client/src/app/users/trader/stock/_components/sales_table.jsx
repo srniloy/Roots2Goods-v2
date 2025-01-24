@@ -17,9 +17,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Badge, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { DeleteExpense, GetOffersList, UpdateProjectExpense, UpdateProjectSales, UpdateStatusOnOfferAcceptance } from '@services/fd-service/project_service';
+// import { DeleteExpense, GetOffersList, UpdateProjectExpense, UpdateProjectSales, UpdateStatusOnOfferAcceptance } from '@services/fd-service/project_service';
 import ConfirmationAlert from '@components/ui/confirmation-alert';
-import { DeleteSales } from '@services/td-service/product_service';
+import { DeleteSales, GetSalesOffersList } from '@services/td-service/product_service';
+import { UpdateStatusOnOfferAcceptance } from '@services/wd-service/product_service';
 
 
 
@@ -64,7 +65,7 @@ const columns = [
 
 
 const columns1 = [
-  { id: 'name', label: 'Trader Name', align: 'center', minWidth: 180 },
+  { id: 'name', label: 'Wholesaler Name', align: 'center', minWidth: 180 },
   { id: 'phone', label: 'Phone', align: 'center', minWidth: 150 },
   { id: 'address', label: 'Location', align: 'center', minWidth: 150 },
   { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value.toLocaleString('us')+' kg',},
@@ -149,12 +150,12 @@ const SalesTable = ({productSales, setProductSales, rerender, setRerender}) => {
   }
 
   const updateSales = async ()=>{
-    const res = await UpdateProjectSales(salesEditData)
-    if(res.status == 200){
-      setRerender(!rerender)
-    }else{
-      alert(res.message)
-    }
+    // const res = await UpdateProjectSales(salesEditData)
+    // if(res.status == 200){
+    //   setRerender(!rerender)
+    // }else{
+    //   alert(res.message)
+    // }
   }
 
   console.log(productSales);
@@ -162,15 +163,15 @@ const SalesTable = ({productSales, setProductSales, rerender, setRerender}) => {
 
 
   const getOffersList = async (sales_id)=>{
-    // const res = await GetOffersList(sales_id)
-    // if(res.status == 200){
-    //     // setRerender(!rerender)
-    //     console.log(res.data);
+    const res = await GetSalesOffersList(sales_id)
+    if(res.status == 200){
+        // setRerender(!rerender)
+        console.log(res.data);
         
-    //     setOffersList(res.data)
-    // }else{
-    //     alert(res.message)
-    // }
+        setOffersList(res.data)
+    }else{
+        alert(res.message)
+    }
     console.log("clicked");
 }
 
@@ -178,15 +179,15 @@ const SalesTable = ({productSales, setProductSales, rerender, setRerender}) => {
 const onAcceptanceAction = async ()=>{
     setIsOfferAcceptanceDialogOpen(false)
     setOpenSalesOffer(false)
-    // const res = await UpdateStatusOnOfferAcceptance(acceptedOffersId)
-    // if(res.status == 200){
-    //     setRerender(!rerender)
-    //     console.log(res.data);
+    const res = await UpdateStatusOnOfferAcceptance(acceptedOffersId)
+    if(res.status == 200){
+        setRerender(!rerender)
+        console.log(res.data);
         
-    //     // setOffersList(res.data)
-    // }else{
-    //     alert(res.message)
-    // }
+        // setOffersList(res.data)
+    }else{
+        alert(res.message)
+    }
 
 }
 

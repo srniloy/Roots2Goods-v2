@@ -77,7 +77,7 @@ function AppMap({ transportInfo, setTransportInfo }) {
       ...ex,
       from: originRef.current.value,
       to: destiantionRef.current.value,
-      distance: results.routes[0].legs[0].distance.value,
+      distance: parseInt(results.routes[0].legs[0].distance.text.split(' ')[0]),
       cost: parseInt(parseInt(results.routes[0].legs[0].distance.text.split(' ')[0]) * transportCost[transportInfo.type])
     }))
   }

@@ -495,13 +495,13 @@ const DashboardLayout = ({ children }) => {
                         <a className={end_pathname == "dashboard" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Business Analytics</a>
                       </div>
                       <div className="frmr-tab-link-wrapper">
-                        <a className={urlPath.includes("trader/dashboard/products") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Buy Products</a>
+                        <a className={urlPath.includes("wholesaler/dashboard/products") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Buy Products</a>
                       </div>
                       <div className="frmr-tab-link-wrapper">
-                        <a className={urlPath.includes("trader/dashboard/stocks") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Stocked Products</a>
+                        <a className={urlPath.includes("wholesaler/dashboard/stocks") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Stocked Products</a>
                       </div>
                       <div className="frmr-tab-link-wrapper">
-                        <a className={urlPath.includes("trader/dashboard/offers-update") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Offers Update</a>
+                        <a className={urlPath.includes("wholesaler/dashboard/offers-update") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Offers Update</a>
                       </div>
                       <div className="frmr-tab-link-wrapper">
                         <a className={end_pathname == "transactions" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Transaction</a>

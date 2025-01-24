@@ -13,12 +13,12 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { createTheme, Stack, ThemeProvider, Tooltip } from '@mui/material';
-import TransportSelect from '../transport-select/page';
+import TransportSelect from '../../transport-select/page';
 import AppMap from '../_components/AppMap';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 import PaymentsIcon from '@mui/icons-material/Payments';
 import PaidIcon from '@mui/icons-material/Paid';
-import { ConfirmOrder, GetOrderInfo } from '@services/td-service/product_service';
+import { ConfirmOrder, ConfirmWholesalerOrder, GetOrderInfo, GetWholeSalerOrderInfo } from '@services/td-service/product_service';
 
 
 // { transportInfo, setTransportInfo }
@@ -108,6 +108,7 @@ const confirmOrder = async ()=>{
         transportInfo: transportInfo,
         orderDetails: orderDetails
     }
+    console.log(data);
     const res = await ConfirmOrder(data)
     if(res.status == 200)
         console.log(res.data);

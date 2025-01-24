@@ -10,8 +10,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Loading, { Loader } from '@app/loading';
 import { SubLoader } from '@app/loading';
+import { GetStockedProducts } from '@services/td-service/product_service';
 import UserContext from '@context/userContext';
-import { GetStockedProducts } from '@services/wd-service/product_service';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -56,7 +56,7 @@ const StockedProducts = () => {
             return (
               <Card key={product.product_name} sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
                 <CardActionArea onClick={()=>{
-                  router.push(`/users/wholesaler/stock/${product?.product_name.replace(' ','-')}`)
+                  router.push(`/users/trader/stock/${product?.product_name.replace(' ', '-')}`)
                   setLoaderOpen(true)
                 }}> 
                     <CardMedia

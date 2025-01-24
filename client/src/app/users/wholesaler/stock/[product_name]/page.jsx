@@ -20,9 +20,8 @@ import Slide from '@mui/material/Slide';
 import UserContext from '@context/userContext';
 import { useEffect } from 'react';
 import { GetUserData } from '@services/fd-service/dashboard_service';
-import { AddNewProductSale, GetProductSales, GetStockedSlots } from '@services/td-service/product_service';
+import { GetStockedSlots } from '@services/wd-service/product_service';
 import SlotTable from '../_components/stock_slots_table';
-import SalesTable from '../_components/sales_table';
 
 
 
@@ -63,7 +62,8 @@ const columns = [
 
 
 const ProjectDetails = ({ params }) => {
-  const {product_name} = React.use(params)
+  let {product_name} = React.use(params)
+  product_name = product_name.replace('-', ' ')
   const [ user, setUser ] = React.useState({})
   const [total, setTotal] = React.useState({ total_costs: 0, total_sales: 0, total_stocked: 0, total_profit: 0 })
   const [stockSlotsInfo, setStockSlotsInfo] = React.useState([])
@@ -140,6 +140,7 @@ const ProjectDetails = ({ params }) => {
   const fetchStocks = async (userData)=>{
     const res = await GetStockedSlots({product_name, user_id: userData?._id})
     if(res.status == 200){
+      console.log(res.data);
       setStockSlotsInfo(res.data)
       calculateTotal(res.data)
     }else{
@@ -148,28 +149,28 @@ const ProjectDetails = ({ params }) => {
   }
 
   const getAllSales = async ()=>{
-    const res = await GetProductSales(product_name)
-    console.log(res.data);
-    if(res.status == 200){
-      const allSales = res.data
-      let totalSales = 0
-      // allSales.map(exp => { exp.status == 'Sold Out'? totalSales += (exp.price * exp.quantity): totalSales += 0})
-      // setTotal(ex=>({
-      //   ...ex,
-      //   total_sales: totalSales
-      // }))
-      setProductSales(allSales)
-      console.log(allSales);
-    }
-    else{
-      alert(res.message)
-    }
+    // const res = await GetProductSales(product_name)
+    // console.log(res.data);
+    // if(res.status == 200){
+    //   const allSales = res.data
+    //   let totalSales = 0
+    //   // allSales.map(exp => { exp.status == 'Sold Out'? totalSales += (exp.price * exp.quantity): totalSales += 0})
+    //   // setTotal(ex=>({
+    //   //   ...ex,
+    //   //   total_sales: totalSales
+    //   // }))
+    //   setProductSales(allSales)
+      console.log('allSales');
+    // }
+    // else{
+    //   alert(res.message)
+    // }
 
   }
 
 
   async function GetUser() {
-    const userData = await GetUserData("Trader");
+    const userData = await GetUserData("Wholesaler");
     setUser(userData)
     fetchStocks(userData)
   }
@@ -218,7 +219,7 @@ const ProjectDetails = ({ params }) => {
       <div className="fpd-cover-img-box"
       >
         <div style={{ backgroundColor: '#00000050', height: '300px', width: '100%', position: 'absolute' }}></div>
-        <img src={`/images/${product_name.toLowerCase()}-cover.jpg`}
+        <img src={`/images/${product_name.replace(' ', '-').toLowerCase()}-cover.jpg`}
 
           style={{ height: '100%', width: '100%', objectFit: 'cover' }} alt="" srcSet="" />
       </div>
@@ -235,22 +236,7 @@ const ProjectDetails = ({ params }) => {
                 </div>
               </div>
             </div>
-            <div className="fpd-calc-item">
-              <div className="w-layout-hflex fpd-total-calc-flex"><img src="/images/acquisition.png" loading="lazy" alt="" className="fpd-total-calc-icons" />
-                <div className="fpd-total-calc-text">
-                  <h5 className="fpd-total-calc-h4">Total Sales</h5>
-                  <h4 className="fpd-total-calc-h5">{parseInt(total.total_sales).toLocaleString('en-us')} <span className="fpd-total-calc-h5-span"></span></h4>
-                </div>
-              </div>
-            </div>
-            <div className="fpd-calc-item">
-              <div className="w-layout-hflex fpd-total-calc-flex"><img src="/images/revenue.png" loading="lazy" alt="" className="fpd-total-calc-icons" />
-                <div className="fpd-total-calc-text">
-                  <h5 className="fpd-total-calc-h4">Total Profit</h5>
-                  <h4 className="fpd-total-calc-h5">{(total.total_sales - total.total_costs).toLocaleString('en-US')}<span className="fpd-total-calc-h5-span">  </span></h4>
-                </div>
-              </div>
-            </div>
+            
             <div className="fpd-calc-item">
               <div className="w-layout-hflex fpd-total-calc-flex"><img src="/images/stock.png" loading="lazy" alt="" className="fpd-total-calc-icons" />
                 <div className="fpd-total-calc-text">
@@ -264,19 +250,11 @@ const ProjectDetails = ({ params }) => {
         <div className="w-layout-hflex fpd-tab-link-container">
           <div className="fpd-tab-links" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className="fpd-tab-link-wrapper">
-              <a className="fpd-tab-link active" onClick={(e) => fpdTabClickAction(e)}>Slots</a>
+              <a className="fpd-tab-link active">Slots</a>
             </div>
-            <div className="fpd-tab-link-wrapper">
-              <a className="fpd-tab-link" onClick={(e) => fpdTabClickAction(e)}>Selling</a>
-            </div>
+            
           </div>
-          <div className="fpd-table-action-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px', marginRight: '10px' }}>
-            {
-              tabState == 'Selling' ?
-                (<Button variant='outline' onClick={() => { handleClickOpenAddSalesRow() }} style={{ color: '#fff', backgroundColor: '#ffffff22' }} startIcon={<AddIcon />}>Add Sales</Button>)
-                : ('')
-            }
-          </div>
+          
         </div>
         <div className="fpd-project-details-tab-container">
 

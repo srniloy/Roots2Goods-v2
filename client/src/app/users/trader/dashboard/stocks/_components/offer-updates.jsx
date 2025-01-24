@@ -29,7 +29,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { useRouter } from 'next/navigation';
 import UserContext from '@context/userContext';
-import { ApproveOffer, GetOffersList } from '@services/wd-service/product_service';
+import { AddOrders, AddWholesalerOrders, GetOffersList, GetWholesalerOffersList, OfferCancellation } from '@services/td-service/product_service';
 
 
 
@@ -41,7 +41,7 @@ const columns = [
         align: 'left',
       },
     { id: 'product_name', label: 'Product Name', align: 'center', minWidth: 80, format: (value) => value,},
-    { id: 'name', label: 'Tradder', align: 'center', minWidth: 100, },
+    { id: 'name', label: 'Wholesaler', align: 'center', minWidth: 100, },
     { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
     { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
     { id: 'amount', label: 'Amount', align: 'center', minWidth: 120, format: (value) => value.toLocaleString('en-US')+' Taka',},
@@ -70,7 +70,7 @@ const columns = [
 
 
 
-const OfferUpdates = (props) => {
+const OfferUpdates = () => {
     const {user, setUser} = useContext(UserContext)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);
@@ -89,7 +89,7 @@ const OfferUpdates = (props) => {
 
 
     const fetchOffers = async ()=>{
-        const res = await GetOffersList(user?._id)
+        const res = await GetWholesalerOffersList(user?._id)
         setOffers(res.data)
         console.log(res.data)
         // setIsLoad(false)
@@ -116,11 +116,18 @@ const OfferUpdates = (props) => {
 
 
 
-    const approveOrder = async (row) =>{
-
-        const res = await ApproveOffer(row._id)
+    const proceedToBilling = async (row) =>{
+      const data = {
+        seller_id: user?._id,
+        buyer_id: row.offered_by,
+        sales_id: row.sales_id,
+        stock_id: row.stock_id._id,
+        offer_id: row._id
+        }
+        const res = await AddWholesalerOrders(data)
         if(res.status == 200){
-            fetchOffers()
+          // console.log(res.data);
+            router.push(`/users/trader/billing/sell/${res.data._id}`)
         }
     }
 
@@ -188,7 +195,7 @@ const OfferUpdates = (props) => {
                                             </TableCell>
                                         );
                                     }
-                                    if(row[column.id] == 'Accepted'){
+                                    if(row[column.id] == 'Approved'){
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 <Button variant="outlined" color='success' style={{fontSize:'12px'}}>
@@ -221,10 +228,10 @@ const OfferUpdates = (props) => {
                                     return(
                                         <TableCell key={column.id} align={column.align}>
                                         
-                                        <Button disabled={row['status'] == 'Waiting' ? false : true} color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() =>{
-                                            approveOrder(row)
+                                        <Button disabled={row['status'] == 'Approved' ? false : true} color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() =>{
+                                            proceedToBilling(row)
                                         }}>
-                                            Approve
+                                            Proceed
                                         </Button>
                                     </TableCell>
                                     )
@@ -238,7 +245,7 @@ const OfferUpdates = (props) => {
                                 //     )
                                 // }
                                 else if(column.id == 'name'){
-                                    const value = row.stock_id.owner[column.id];
+                                    const value = row.offered_by[column.id];
                                     return (
                                     <TableCell key={column.id} align={column.align}>
                                         {column.format && typeof value === 'number'

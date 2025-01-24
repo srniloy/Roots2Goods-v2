@@ -76,3 +76,79 @@ export const AddNewOffer = async (offerData) => {
     return response
 }
 
+
+
+
+export const GetTransactions = async (user_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-transactions`, { user_id });
+        if (res.status === 200) {
+            console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+}
+
+
+
+export const GetFilterSelestionData = async()=>{
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.get(`${SERVER_URL}/trader/get-filter-selection-data`);
+        if (res.status === 200) {
+            console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+}
+
+
+export const GetFilteredAvailableData = async (filter) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-filtered-available-products`, filter);
+        if (res.status === 200) {
+            console.log(res.data.resData)
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+}

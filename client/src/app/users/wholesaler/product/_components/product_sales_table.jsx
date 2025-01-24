@@ -24,7 +24,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import { useReactToPrint } from 'react-to-print';
 import Checkbox from '@mui/material/Checkbox';
 import UserContext from '@context/userContext';
-import { AddNewOffer } from '@services/td-service/dashboard_service';
+import { AddNewOffer } from '@services/wd-service/dashboard_service';
 
 
 const columns = [
@@ -92,7 +92,7 @@ const ProductSalesTable = ({productDetails}) => {
         amount: (productDetails?.quantity * productDetails?.price),
         status: productDetails?.status, 
         collection_date: productDetails?.collection_date,
-        project_id: productDetails?.project_id._id,
+        stock_id: productDetails?.stock_id._id,
     }]
     
     let sellingStep = 0;
@@ -221,7 +221,7 @@ const ProductSalesTable = ({productDetails}) => {
                                     );
                                 }
                                 else if(column.id == 'status'){
-                                    if(row[column.id] == 'Pending'){
+                                    if(row[column.id] == 'Ready to sell'){
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 <Button variant="outlined" color='primary' style={{fontSize:'12px'}}>
@@ -252,12 +252,12 @@ const ProductSalesTable = ({productDetails}) => {
                                 else if(column.id == 'SendOffer'){
                                     return(
                                         <TableCell key={column.id} align={column.align}>
-                                            <Button disabled={!(row['status'] == 'Pending')} variant='outlined' onClick={()=>{
+                                            <Button disabled={!(row['status'] == 'Ready to sell')} variant='outlined' onClick={()=>{
                                                 setOfferData(ex=>({
                                                     ...ex,
                                                     offered_by: user?._id,
                                                     sales_id: row.id,
-                                                    project_id: row.project_id
+                                                    stock_id: row.stock_id
                                                 }))
                                                 handleClickOpenSendOffer()
                                             }} style={{fontSize: '12px'}}>Send</Button>

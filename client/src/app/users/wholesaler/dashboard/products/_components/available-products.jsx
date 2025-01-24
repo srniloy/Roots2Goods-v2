@@ -15,7 +15,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import TextField from '@mui/material/TextField';
 import { height } from '@mui/system';
 import { SubLoader } from '@app/loading';
-import { GetAvailableProducts } from '@services/wd-service/dashboard_service';
+import { GetAvailableProducts, GetFilteredAvailableData, GetFilterSelestionData } from '@services/wd-service/dashboard_service';
 
 
 const productsImg = [
@@ -58,6 +58,17 @@ const AgroProducts = (props) => {
     const [farmersList, setFarmersList] = React.useState([]);
 
 
+  const getTheListOfFilteredSelection = async ()=>{
+    const res = await GetFilterSelestionData()
+    if(res.status == 200){
+      console.log(res.data);
+      setLocations(res.data.locations)
+      setProductList(res.data.products)
+      setFarmersList(res.data.farmers)
+    }else{
+      alert(res.message)
+    }
+  }
 
   const setAvailableProducts = async ()=>{
     const res = await GetAvailableProducts()
@@ -70,8 +81,15 @@ const AgroProducts = (props) => {
   }
   React.useEffect(() => {
     setAvailableProducts()
+    getTheListOfFilteredSelection()
   }, []);
 
+  const getFilteredAvailableData = async()=>{
+    console.log(productFilterData);
+    const res = await GetFilteredAvailableData(productFilterData)
+    setProductFilterData({location:'',product:'', farmer: ''})
+    setProducts(res.data)
+  }
 
 
   return (
@@ -89,7 +107,7 @@ const AgroProducts = (props) => {
           onChange={(e, v)=>{
             setProductFilterData(ex => ({
               ...ex,
-              location: v?.label
+              location: v || ''
             }))
           }}
           renderInput={(params) => <TextField {...params} variant='outlined' label="Location"/>}
@@ -103,7 +121,7 @@ const AgroProducts = (props) => {
           onChange={(e,v)=>{
             setProductFilterData(ex => ({
               ...ex,
-              product: v?.label
+              product: v || ''
             }))
           }}
           renderInput={(params) => <TextField {...params} variant='outlined' label="Product" />}
@@ -117,7 +135,7 @@ const AgroProducts = (props) => {
           onChange={(e, v)=>{
             setProductFilterData(ex => ({
               ...ex,
-              farmer: v?.label
+              farmer: v || ''
             }))
           }}
           renderInput={(params) => <TextField {...params} variant='outlined' label="Farmer" />}
@@ -126,7 +144,7 @@ const AgroProducts = (props) => {
 
         <Button variant="contained" style={{height: '50px'}} sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize='large' />}
           onClick={()=>{
-            searchProducts()
+            getFilteredAvailableData()
           }}
         >
           Search
@@ -145,7 +163,7 @@ const AgroProducts = (props) => {
           return (
             <Card key={product?._id} sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
               <CardActionArea onClick={()=>{
-                router.push('/users/trader/product/'+ product?._id)
+                router.push('/users/wholesaler/product/'+ product?._id)
                 setLoaderOpen(true)
               }}> 
                   <CardMedia

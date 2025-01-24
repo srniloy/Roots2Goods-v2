@@ -63,7 +63,8 @@ const columns = [
 
 
 const ProjectDetails = ({ params }) => {
-  const {product_name} = React.use(params)
+  let {product_name} = React.use(params)
+  product_name = product_name.replace('-', ' ')
   const [ user, setUser ] = React.useState({})
   const [total, setTotal] = React.useState({ total_costs: 0, total_sales: 0, total_stocked: 0, total_profit: 0 })
   const [stockSlotsInfo, setStockSlotsInfo] = React.useState([])
@@ -126,8 +127,8 @@ const ProjectDetails = ({ params }) => {
     let totalCost = 0
     let totalStocked = 0
     stockList.map(stock=>{
-      totalCost = totalCost+stock?.amount + stock?.transport_cost
-      totalStocked = totalStocked+stock?.quantity
+      totalCost = totalCost+stock?.amount + stock?.transport_cost,
+      stock.status != 'Sold Out'? totalStocked = totalStocked+stock?.quantity : totalStocked += 0
     })
     setTotal(ex=>({
       ...ex,
@@ -153,11 +154,11 @@ const ProjectDetails = ({ params }) => {
     if(res.status == 200){
       const allSales = res.data
       let totalSales = 0
-      // allSales.map(exp => { exp.status == 'Sold Out'? totalSales += (exp.price * exp.quantity): totalSales += 0})
-      // setTotal(ex=>({
-      //   ...ex,
-      //   total_sales: totalSales
-      // }))
+      allSales.map(exp => { exp.status == 'Sold Out'? totalSales += (exp.price * exp.quantity): totalSales += 0})
+      setTotal(ex=>({
+        ...ex,
+        total_sales: totalSales
+      }))
       setProductSales(allSales)
       console.log(allSales);
     }
@@ -218,7 +219,7 @@ const ProjectDetails = ({ params }) => {
       <div className="fpd-cover-img-box"
       >
         <div style={{ backgroundColor: '#00000050', height: '300px', width: '100%', position: 'absolute' }}></div>
-        <img src={`/images/${product_name.toLowerCase()}-cover.jpg`}
+        <img src={`/images/${product_name.replace(' ', '-').toLowerCase()}-cover.jpg`}
 
           style={{ height: '100%', width: '100%', objectFit: 'cover' }} alt="" srcSet="" />
       </div>
@@ -271,11 +272,7 @@ const ProjectDetails = ({ params }) => {
             </div>
           </div>
           <div className="fpd-table-action-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px', marginRight: '10px' }}>
-            {
-              tabState == 'Selling' ?
-                (<Button variant='outline' onClick={() => { handleClickOpenAddSalesRow() }} style={{ color: '#fff', backgroundColor: '#ffffff22' }} startIcon={<AddIcon />}>Add Sales</Button>)
-                : ('')
-            }
+            <Button variant='outline' onClick={() => { handleClickOpenAddSalesRow() }} style={{ color: '#fff', backgroundColor: '#ffffff22' }} startIcon={<AddIcon />}>Add Sales</Button>
           </div>
         </div>
         <div className="fpd-project-details-tab-container">

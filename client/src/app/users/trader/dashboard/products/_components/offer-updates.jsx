@@ -127,7 +127,7 @@ const OfferUpdates = () => {
         const res = await AddOrders(data)
         if(res.status == 200){
           // console.log(res.data);
-            router.push(`/users/trader/billing/${res.data._id}`)
+            router.push(`/users/trader/billing/buy/${res.data._id}`)
         }
     }
 

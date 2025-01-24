@@ -9,7 +9,7 @@ const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 export const GetOffersList = async (offered_by) => {
   let response = { message: "", status: 0, data: undefined }
   try {
-      const res = await axios.post(`${SERVER_URL}/trader/get-offers-list`,{offered_by});
+      const res = await axios.post(`${SERVER_URL}/wholesaler/get-offers-list`,{offered_by});
       if (res.status === 200) {
           // console.log(res.data.resData)
 
@@ -28,6 +28,32 @@ export const GetOffersList = async (offered_by) => {
       }
   }
   return response
+}
+
+
+
+export const UpdateStatusOnOfferAcceptance = async (offer_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/wholesaler/update-status-on-offer-acceptance`,{offer_id});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
 }
 
 
@@ -54,6 +80,32 @@ export const OfferCancellation = async (offer_id) => {
   }
   return response
 }
+
+
+export const ApproveOffer = async (offer_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/wholesaler/approve-offer`,{offer_id});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+}
+
 
 
 
@@ -147,7 +199,7 @@ export const ConfirmOrder = async (data) => {
 export const GetStockedProducts = async (user_id) => {
     let response = { message: "", status: 0, data: undefined }
     try {
-        const res = await axios.post(`${SERVER_URL}/trader/get-stocked-products`,{user_id});
+        const res = await axios.post(`${SERVER_URL}/wholesaler/get-stocked-products`,{user_id});
         if (res.status === 200) {
   
             response = {
@@ -169,11 +221,11 @@ export const GetStockedProducts = async (user_id) => {
 
 
   export const GetStockedSlots = async (data) => {
+    console.log(data);
     let response = { message: "", status: 0, data: undefined }
     try {
-        const res = await axios.post(`${SERVER_URL}/trader/get-stocked-slots`,data);
+        const res = await axios.post(`${SERVER_URL}/wholesaler/get-stocked-slots`,data);
         if (res.status === 200) {
-  
             response = {
                 message: res.data.message,
                 status: res.status,

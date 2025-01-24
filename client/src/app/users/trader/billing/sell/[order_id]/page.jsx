@@ -18,7 +18,7 @@ import AppMap from '../_components/AppMap';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 import PaymentsIcon from '@mui/icons-material/Payments';
 import PaidIcon from '@mui/icons-material/Paid';
-import { ConfirmOrder, GetOrderInfo } from '@services/td-service/product_service';
+import { ConfirmOrder, ConfirmWholesalerOrder, GetOrderInfo, GetWholeSalerOrderInfo } from '@services/td-service/product_service';
 
 
 // { transportInfo, setTransportInfo }
@@ -83,7 +83,7 @@ const [orderDetails, setOrderDetails] = React.useState()
 
 
 const fetchData = async ()=>{
-    const res = await GetOrderInfo(order_id)
+    const res = await GetWholeSalerOrderInfo(order_id)
     if(res.status == 200){
         setOrderDetails(res.data)
         console.log(res.data)
@@ -108,7 +108,8 @@ const confirmOrder = async ()=>{
         transportInfo: transportInfo,
         orderDetails: orderDetails
     }
-    const res = await ConfirmOrder(data)
+    console.log(data);
+    const res = await ConfirmWholesalerOrder(data)
     if(res.status == 200)
         console.log(res.data);
         router.push('/users/trader/dashboard')
@@ -282,7 +283,7 @@ const confirmOrder = async ()=>{
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">{orderDetails?.product_id.product_name}</th>
+                                        <th scope="row">{orderDetails?.stock_id.product_name}</th>
                                         <td>
                                             {orderDetails?.offer_id.quantity} kg
                                         </td>

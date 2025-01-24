@@ -11,13 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import { Button, ThemeProvider, createTheme } from '@mui/material';
 import { Loader, SubLoader } from '@app/loading';
 import UserContext from '@context/userContext';
-import { GetTransactions } from '@services/fd-service/dashboard_service';
+import { GetTransactions } from '@services/wd-service/dashboard_service';
 
 
 
 const columns = [
   { id: 'order_id', label: 'Transaction ID', align: 'center', minWidth: 100 },
-  { id: 'buyer_name', label: 'Buyer Name', align: 'center', minWidth: 120 },
+  { id: 'seller_name', label: 'Seller Name', align: 'center', minWidth: 120 },
   {
     id: 'product_name',
     label: 'Product',
@@ -142,17 +142,17 @@ const Transactions = (props) => {
                                 </TableCell>
                               );
                             }
-                            else if(column.id == 'buyer_name'){
+                            else if(column.id == 'seller_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.buyer_id.name}
+                                  {row.seller_id.name}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'product_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.product_id.product_name}
+                                  {row.product_id?.product_name ? row.product_id.product_name : row.stock_id.product_name}
                                 </TableCell>
                               );
                             }

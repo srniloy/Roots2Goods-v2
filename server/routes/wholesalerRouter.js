@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from 'multer';
-import { GetAvailableProducts, GetProductDetails } from "../controllers/wholesaler-request-controller.js";
+import { AddNewOffer, ApproveOfferStatus, GetAvailableProducts, GetFilteredAvailableData, GetFilterSelestionData, GetOffersList, GetProductDetails, GetStockedProducts, GetStockedSlots, GetTransactions, UpdateStatusOnOfferAcceptance } from "../controllers/wholesaler-request-controller.js";
 
 
 const wholesalerRouter = Router()
@@ -12,9 +12,13 @@ wholesalerRouter.get('/get-available-products', GetAvailableProducts)
 
 wholesalerRouter.post('/get-product-details', GetProductDetails)
 
-// traderRouter.post('/add-new-offer', AddNewOffer)
+wholesalerRouter.post('/add-new-offer', AddNewOffer)
 
-// traderRouter.post('/get-offers-list', GetOffersList)
+wholesalerRouter.post('/get-offers-list', GetOffersList)
+
+wholesalerRouter.post('/update-status-on-offer-acceptance', UpdateStatusOnOfferAcceptance)
+
+wholesalerRouter.post('/approve-offer', ApproveOfferStatus)
 
 // traderRouter.post('/offer-cancellation', OfferCancellation)
 
@@ -24,9 +28,17 @@ wholesalerRouter.post('/get-product-details', GetProductDetails)
 
 // traderRouter.post('/confirm-order', ConfirmOrder)
 
-// traderRouter.post('/get-stocked-products', GetStockedProducts)
+wholesalerRouter.post('/get-stocked-products', GetStockedProducts)
 
-// traderRouter.post('/get-stocked-slots', GetStockedSlots)
+wholesalerRouter.post('/get-stocked-slots', GetStockedSlots)
+
+
+wholesalerRouter.post('/get-transactions', GetTransactions)
+
+
+wholesalerRouter.get('/get-filter-selection-data', GetFilterSelestionData)
+
+wholesalerRouter.post('/get-filtered-available-products', GetFilteredAvailableData)
 
 
 // traderRouter.post('/add-product-sales', AddNewProductSale)

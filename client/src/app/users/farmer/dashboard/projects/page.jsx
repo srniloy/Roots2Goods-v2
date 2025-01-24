@@ -236,7 +236,7 @@ const ProjectLayout = ({ children }) => {
                             onChange={(e, value) => {
                                 setProjectCreateData(ex => ({
                                     ...ex,
-                                    product_name: value.label
+                                    product_name: value?.label || ''
                                 }))
                             }}
                             renderInput={(params) => <TextField {...params} label="Product Name" />}

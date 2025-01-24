@@ -2,7 +2,7 @@ import UserModel from "../models/userModel.js"
 import bcrypt from 'bcrypt'
 import { configDotenv } from "dotenv"
 import jwt from 'jsonwebtoken'
-import {OfferModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel} from "../models/projectModel.js"
+import {OfferModel, OrderModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel} from "../models/projectModel.js"
 import fs from 'fs'
 import { clearScreenDown } from "readline"
 
@@ -396,6 +396,25 @@ export const OfferCancellation = async (req, res) => {
         await ProjectSalesModel.findOneAndUpdate({_id: offer.sales_id}, {status: 'Pending'}, { new: true })
 
         return res.json({ message: "Operation Success", resData: {} })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "internal server error" })
+    }
+}
+
+
+
+
+export const GetTransactions = async (req, res) => {
+    try {
+        const {user_id} = req.body
+        const offers = await OrderModel.find({seller_id: user_id})
+        .populate(['buyer_id', 'sales_id', 'product_id', 'offer_id']).sort({createdAt: -1})
+          console.log(offers);
+        // const projects = await ProjectModel.find({created_by: user_id})
+        // console.log(projects);
+        return res.json({ message: "Operation Success", resData: offers })
 
     } catch (error) {
         console.log(error);

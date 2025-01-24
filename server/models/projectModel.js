@@ -52,6 +52,16 @@ const offerSchema = new mongoose.Schema({
     project_id: {type: mongoose.Schema.Types.ObjectId, ref: 'farmer-projects'}
 })
 
+const wholesalerOfferSchema = new mongoose.Schema({
+    quantity: Number,
+    price: Number,
+    amount: Number,
+    status: String,
+    offered_by: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+    sales_id: {type: mongoose.Schema.Types.ObjectId, ref: 'trader-product-sales'},
+    stock_id: {type: mongoose.Schema.Types.ObjectId, ref: 'stocks'}
+})
+
 
 const orderSchema = new mongoose.Schema({
     seller_id: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
@@ -59,6 +69,15 @@ const orderSchema = new mongoose.Schema({
     sales_id: {type: mongoose.Schema.Types.ObjectId, ref: 'farmer-project-sales'},
     product_id: {type: mongoose.Schema.Types.ObjectId, ref: 'farmer-projects'},
     offer_id: {type: mongoose.Schema.Types.ObjectId, ref: 'offers'},
+    status: String
+}, {timestamps: true})
+
+const wholesalerOrderSchema = new mongoose.Schema({
+    seller_id: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+    buyer_id: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+    sales_id: {type: mongoose.Schema.Types.ObjectId, ref: 'trader-product-sales'},
+    stock_id: {type: mongoose.Schema.Types.ObjectId, ref: 'stocks'},
+    offer_id: {type: mongoose.Schema.Types.ObjectId, ref: 'wholesaler-offers'},
     status: String
 }, {timestamps: true})
 
@@ -73,6 +92,15 @@ const transportSchema = new mongoose.Schema({
 })
 
 
+const wholesalerTransportSchema = new mongoose.Schema({
+    vehicle: String,
+    pickup_location: String,
+    delivery_location: String,
+    distance: Number,
+    cost: Number,
+    order_id: {type: mongoose.Schema.Types.ObjectId, ref: 'wholesaler-orders'}
+})
+
 
 const stockSchema = new mongoose.Schema({
     product_name: String,
@@ -86,6 +114,21 @@ const stockSchema = new mongoose.Schema({
     slot: Number,
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
     order_id: {type: mongoose.Schema.Types.ObjectId, ref: 'orders'}
+}, {timestamps: true})
+
+
+const wholesalerStockSchema = new mongoose.Schema({
+    product_name: String,
+    quantity: Number,
+    price: Number,
+    amount: Number,
+    transport_cost: Number,
+    status: String,
+    collection_date: String,
+    seller_name: String,
+    slot: Number,
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+    order_id: {type: mongoose.Schema.Types.ObjectId, ref: 'wholesaler-orders'}
 }, {timestamps: true})
 
 
@@ -118,8 +161,15 @@ const ProjectSalesModel = mongoose.model("farmer-project-sales", salesSchema)
 const OfferModel = mongoose.model("offers", offerSchema)
 const OrderModel = mongoose.model("orders", orderSchema)
 const TransportModel = mongoose.model("transports", transportSchema)
+const WholesalerTransportModel = mongoose.model("wholesaler-transports", wholesalerTransportSchema)
 const StockModel = mongoose.model("stocks", stockSchema)
+
+const WholesalerStockModel = mongoose.model("wholesaler-stocks", wholesalerStockSchema)
 const TraderSalesModel = mongoose.model("trader-product-sales", traderSalesSchema)
 
-export {ProjectModel, ProjectExpenseModel, ProjectSalesModel, OfferModel, OrderModel, TransportModel, StockModel, TraderSalesModel};
+const WholesalerOfferModel = mongoose.model("wholesaler-offers", wholesalerOfferSchema)
+
+const WholesalerOrderModel = mongoose.model("wholesaler-orders", wholesalerOrderSchema)
+
+export {WholesalerTransportModel, WholesalerStockModel, WholesalerOrderModel, ProjectModel, ProjectExpenseModel, ProjectSalesModel, OfferModel, OrderModel, TransportModel, StockModel, TraderSalesModel, WholesalerOfferModel};
 

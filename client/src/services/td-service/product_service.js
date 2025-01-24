@@ -56,6 +56,28 @@ export const OfferCancellation = async (offer_id) => {
 }
 
 
+export const GetWholesalerOffersList = async (user_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-wholesaler-offers-list`,{user_id});
+        if (res.status === 200) {
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
 
 // ============================================================= Orders ==================================================
 
@@ -84,6 +106,30 @@ export const AddOrders = async (data) => {
   return response
 }
 
+export const AddWholesalerOrders = async (data) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/add-wholesaler-orders`, data);
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+
 
 export const GetOrderInfo = async (order_id) => {
   let response = { message: "", status: 0, data: undefined }
@@ -108,6 +154,30 @@ export const GetOrderInfo = async (order_id) => {
   }
   return response
 }
+export const GetWholeSalerOrderInfo = async (order_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-wholesaler-order-info`,{order_id});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+
 
 export const ConfirmOrder = async (data) => {
   let response = { message: "", status: 0, data: undefined }
@@ -132,6 +202,32 @@ export const ConfirmOrder = async (data) => {
   }
   return response
 }
+
+
+export const ConfirmWholesalerOrder = async (data) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/confirm-wholesaler-order`,data);
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+  
 
 
 
@@ -256,6 +352,31 @@ export const DeleteSales = async (sales_id) => {
         response = {
             message: "Failed to Delete",
             status: 400,
+        }
+    }
+    return response
+}
+
+
+export const GetSalesOffersList = async (sales_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-sales-offers-list`,{sales_id});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
         }
     }
     return response
