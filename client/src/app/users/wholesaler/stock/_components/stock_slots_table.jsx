@@ -19,7 +19,26 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import { SubLoader } from '@app/loading';
 import UserContext from '@context/userContext';
+import moment from 'moment';
 
+
+moment.updateLocale('en', {
+  relativeTime: {
+       future: "in %s",
+       past:   "%s ago",
+       s:  "seconds",
+       m:  "1 minute",
+       mm: "%d minutes",
+       h:  "1 hour",
+       hh: "%d hours",
+       d:  "1 day",
+       dd: "%d days",
+       M:  "1 month",
+       MM: "%d months",
+       y:  "1 year",
+       yy: "%d years"
+ }
+});
 
 const columns = [
   { id: 'slot', label: 'Slot Id', align: 'center', minWidth: 100 },
@@ -27,6 +46,13 @@ const columns = [
   {
     id: 'createdAt',
     label: 'Date',
+    minWidth: 100,
+    align: 'center',
+    format: (value) => value.toLocaleString(),
+  },
+  {
+    id: 'productAge',
+    label: 'Product Age',
     minWidth: 100,
     align: 'center',
     format: (value) => value.toLocaleString(),
@@ -102,6 +128,7 @@ const SlotTable = ({stockSlots, setStockSlots, total}) => {
       setPage(0);
       
     };
+    console.log(stockSlots);
 
 
     
@@ -206,6 +233,14 @@ const SlotTable = ({stockSlots, setStockSlots, total}) => {
                                 </TableCell>
                               );
                             }
+                            else if(column.id == 'productAge'){
+                              return (
+                                <TableCell key={column.id} align={column.align}>
+                                  {moment(row['collection_date']).fromNow(true)}
+                                </TableCell>
+                              );
+                            }
+                            
                             else{
                               return (
                                 <TableCell key={column.id} align={column.align}>

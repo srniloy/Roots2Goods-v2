@@ -12,7 +12,7 @@ import wholesalerRouter from './routes/wholesalerRouter.js'
 
 const app = express()
 
-app.use(cors())
+app.use(cors({origin: "http://192.168.0.211:3000"}))
 app.use(bodyParser.json())
 
 configDotenv()
@@ -30,7 +30,7 @@ app.get('/uploads*', function (req, res) {
 mongoose.connect(MONGO_SERVER_URL)
     .then(() => {
         console.log("Database Connected")
-        app.listen(PORT, () => console.log(`Server is runnting at ${PORT}`))
+        app.listen(PORT, '0.0.0.0', () => console.log(`Server is runnting at ${PORT}`))
     })
     .catch(error => console.log(error))
 

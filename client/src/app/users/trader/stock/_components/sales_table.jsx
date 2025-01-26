@@ -286,7 +286,7 @@ const onAcceptanceAction = async ()=>{
                                     return(
                                         <TableCell key={column.id} align={column.align}>
                                         <Badge badgeContent={row.total_offers} color="primary">
-                                            <Button disabled={row.status == 'Ready to sell' ? false : true}  variant='outlined' onClick={()=>{
+                                            <Button disabled={row.status == 'Ready to sell' ? false : true}  variant={'contained'} onClick={()=>{
                                                 setOpenSalesOffer(true)
                                                 getOffersList(row._id)
                                             }} style={{fontSize: '12px'}}>Offers</Button>

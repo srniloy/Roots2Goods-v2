@@ -86,7 +86,6 @@ const fetchData = async ()=>{
     const res = await GetWholeSalerOrderInfo(order_id)
     if(res.status == 200){
         setOrderDetails(res.data)
-        console.log(res.data)
     }else{
         alert(res.message)
     }

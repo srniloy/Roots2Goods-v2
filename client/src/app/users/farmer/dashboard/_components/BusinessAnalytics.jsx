@@ -23,23 +23,23 @@ const BusinessAnalytics = (props) => {
 
   const fetchTotalCalculations = async ()=>{
 
-      const postData = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({user_id: props.info?.user_id}),
-      };
+      // const postData = {
+      // method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      // body: JSON.stringify({user_id: props.info?.user_id}),
+      // };
 
-      const res = await fetch(
-      '/api/get/total_calculations',
-      postData
-      )
-      const response = await res.json()
-      setTotalCalculations(response.data)
-      console.log(response.data)
+      // const res = await fetch(
+      // '/api/get/total_calculations',
+      // postData
+      // )
+      // const response = await res.json()
+      // setTotalCalculations(response.data)
+      // console.log(response.data)
       // setIsLoad(false)
-
+      console.log("object");
 
       
   }
@@ -49,27 +49,27 @@ const BusinessAnalytics = (props) => {
 
   const fetchPieData = async ()=>{
 
-    const postData1 = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({user_id: props.info?.user_id}),
-      };
+    // const postData1 = {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({user_id: props.info?.user_id}),
+    //   };
   
-      const res1 = await fetch(
-      'http://localhost:3000/api/get/get_project_info_for_graph',
-      postData1
-      )
-      const response1 = await res1.json()
+    //   const res1 = await fetch(
+    //   'http://localhost:3000/api/get/get_project_info_for_graph',
+    //   postData1
+    //   )
+    //   const response1 = await res1.json()
 
-      response1.data.map((data, i)=>{
-        productsList.push(data.product)
-        salesList.push(data.total_sales)
-        datesList.push(data.date)
-      })
-      setPieData(response1.data)
-      
+    //   response1.data.map((data, i)=>{
+    //     productsList.push(data.product)
+    //     salesList.push(data.total_sales)
+    //     datesList.push(data.date)
+    //   })
+    //   setPieData(response1.data)
+    console.log("object");
 }
 
 

@@ -60,9 +60,7 @@ export const HandleSignin = async (data) => {
             cookieStore.set({
                 name: cookieName,
                 value: res.data.resData.token,
-                secure: true,
-                httpOnly: true,
-                maxAge: 60 * 60
+                maxAge: 60 * 120
             })
             response = {
                 message: res.data.message,

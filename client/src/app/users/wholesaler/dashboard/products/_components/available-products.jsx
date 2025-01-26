@@ -169,7 +169,7 @@ const AgroProducts = (props) => {
                   <CardMedia
                     component="img"
                     height="180"
-                    image={`/images/${(product?.stock_id.product_name)?.toLowerCase()}.jpg`}
+                    image={`/images/${(product?.stock_id.product_name)?.replace(' ', '-').toLowerCase()}.jpg`}
                     alt="Product Image"
                     style={{
                       borderRadius: '20px'

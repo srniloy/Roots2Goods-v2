@@ -31,10 +31,9 @@ export const UpdateProfileInfo = async (user) => {
             cookieStore.set({
                 name: `${user_type}Token`,
                 value: token,
-                secure: true,
-                httpOnly: true,
-                maxAge: 60 * 30
+                maxAge: 60 * 120
             })
+            GetUserData(user_type)
             response = {
                 message: res.data.message,
                 status: res.status,

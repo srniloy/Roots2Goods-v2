@@ -130,17 +130,18 @@ export const GetWholesalerOffersList = async (req, res) => {
       const offers = await WholesalerOfferModel.find()
         .populate({
             path: 'stock_id',
-            match: { owner: user_id }, // Match stocks where owner matches traderId
+            match: { owner: user_id }, // Match stocks where owner matches user_id
             select: 'product_name owner', // Select only relevant fields from stocks
             populate: {
                 path: 'owner',
                 model: 'users', // Populate trader details from the 'users' collection
                 select: 'name phone', // Include only the trader's name and phone
             },
-        }).populate('offered_by')
+        })
+        .populate('offered_by') // Populate the wholesaler offering the product
         .sort({ _id: -1 })
-      // const projects = await ProjectModel.find({created_by: user_id})
-      // console.log(projects);
+        .then((offers) => offers.filter((offer) => offer.stock_id !== null));
+        // console.log(offers);
       return res.json({ message: "Operation Success", resData: offers })
 
   } catch (error) {
@@ -197,6 +198,7 @@ export const GetWholeSalerOrderInfo = async (req, res) => {
       const { order_id } = req.body
       const order = await WholesalerOrderModel.findOne({_id: order_id})
       .populate(['seller_id' ,'buyer_id', 'sales_id', 'stock_id', 'offer_id'])
+      console.log(order);
       return res.json({ message: "Operation Successful", resData: order })
   } catch (error) {
       console.log(error);
@@ -214,7 +216,7 @@ export const ConfirmOrder = async (req, res) => {
       const offer = await OfferModel.findOneAndUpdate({_id: order.offer_id}, {status: 'Sold Out'}, {new: true})
       const sale = await ProjectSalesModel.findOneAndUpdate({_id: order.sales_id}, {status: 'Sold Out', quantity: offer.quantity, price: offer.price, amount: offer.amount}, {new: true})
       
-      const stock = await StockModel.find({product_name: orderDetails.product_id.product_name})
+      const stock = await StockModel.find({product_name: orderDetails.product_id.product_name, owner: orderDetails.buyer_id._id})
       const stockModel = new StockModel({
         product_name: orderDetails.product_id.product_name,
         quantity: orderDetails.offer_id.quantity,
@@ -246,7 +248,7 @@ export const ConfirmOrder = async (req, res) => {
 export const ConfirmWholesalerOrder = async (req, res) => {
   try {
       const { order_id, transportInfo, orderDetails } = req.body
-      console.log(orderDetails);
+      // console.log(orderDetails);
       const {type, from, to, distance, cost} = transportInfo
       const order = await WholesalerOrderModel.findOne({_id: order_id})
       await WholesalerOrderModel.findOneAndUpdate({_id: order_id}, {status: 'Completed'})
@@ -357,11 +359,19 @@ export const AddNewProductSale = async (req, res) => {
 }
 
 
+
 export const GetProductSales = async (req, res) => {
   try {
       // const existance = await UserModel.findOne({name: userModel.phone})
-      const { product_name } = req.body
-      const sales = await TraderSalesModel.find({ product_name: product_name || '' });
+      const { product_name, user_id } = req.body
+      const sales = await TraderSalesModel.find({ product_name: product_name || '' })
+        .populate({
+          path: 'stock_id',
+          match: { owner: user_id },
+          select: 'product_name'
+        })
+        .sort({ _id: -1 })
+        .then((sales) => sales.filter((sale) => sale.stock_id !== null));
       const updatedSales = await Promise.all(
           sales.map(async (sale) => {
               const offers = await WholesalerOfferModel.find({ sales_id: sale._id, status: 'Pending' });
@@ -374,7 +384,6 @@ export const GetProductSales = async (req, res) => {
       );
       
       // // const projects = await ProjectModel.find({created_by: user_id})
-      console.log(sales);
       return res.json({ message: "Done Successfully", resData: updatedSales })
 
   } catch (error) {

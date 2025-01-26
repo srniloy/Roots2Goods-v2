@@ -62,7 +62,7 @@ const StockedProducts = () => {
                     <CardMedia
                       component="img"
                       height="180"
-                      image={`/images/${product?.product_name}.jpg`}
+                      image={`/images/${product?.product_name.replace(' ','-').toLowerCase()}.jpg`}
                       alt="Product Image"
                       style={{
                         borderRadius: '20px'

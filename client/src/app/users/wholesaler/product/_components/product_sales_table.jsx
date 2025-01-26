@@ -252,7 +252,7 @@ const ProductSalesTable = ({productDetails}) => {
                                 else if(column.id == 'SendOffer'){
                                     return(
                                         <TableCell key={column.id} align={column.align}>
-                                            <Button disabled={!(row['status'] == 'Ready to sell')} variant='outlined' onClick={()=>{
+                                            <Button disabled={!(row['status'] == 'Ready to sell')} variant={'contained'} onClick={()=>{
                                                 setOfferData(ex=>({
                                                     ...ex,
                                                     offered_by: user?._id,

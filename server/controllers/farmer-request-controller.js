@@ -18,8 +18,9 @@ export const UpdateProfileInfo = async (req, res) => {
         const { originalname, path, destination, filename } = req.file
         const parts = originalname.split('.')
         const ext = parts[parts.length - 1]
-        const newPath = destination + filename + '.' + ext
-        fs.renameSync(path, path + '.' + ext)
+        const newPath = destination + originalname
+        fs.renameSync(path, newPath)
+
         const result = await UserModel.findByIdAndUpdate(_id, { name, phone, address, nid, birth_date, img: newPath }, { new: true })
         if (!result) {
             console.log(error);
@@ -61,8 +62,8 @@ export const CreateNewProject = async (req, res) => {
             const { originalname, path, destination, filename } = req.file
             const parts = originalname.split('.')
             const ext = parts[parts.length - 1]
-            const newPath = destination + filename + '.' + ext
-            fs.renameSync(path, path + '.' + ext)
+            const newPath = destination + originalname
+            fs.renameSync(path, newPath)    
             const projectModel = new ProjectModel({ title, product_name, seedling, land: land_size, start_time, img: newPath, status: 'Running', cover_img: '', created_by })
             await projectModel.save()
             return res.json({ message: "Account Create Successfully", resData: projectModel })

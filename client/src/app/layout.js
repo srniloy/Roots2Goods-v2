@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 
 export const metadata = {
-  title: 'Harvest Hive',
+  title: 'Roots2Goods',
   description: 'This is an Agricultural Supply Chain Management System',
 }
 

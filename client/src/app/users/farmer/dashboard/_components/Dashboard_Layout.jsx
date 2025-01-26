@@ -165,9 +165,11 @@ const DashboardLayout = ({ children }) => {
               <div className="w-layout-blockcontainer fd-nav-container w-container">
                 <div className="w-layout-hflex fd-nav-flex-box">
                   {/* <h1 className="fd-nav-heading-h1">Harvest Hive</h1> */}
-                  <img src="/images/logo.png" alt="logo"
+                  <img src="/images/roots2goods.png" alt="logo"
                     style={{
-                      height: '70px'
+                      height: '50px',
+                      marginBottom: '20px',
+                      marginTop: '10px',
                     }}
                   />
                   <ul role="list" className="fd-nav-icon-list">
@@ -625,7 +627,6 @@ const DashboardLayout = ({ children }) => {
                   <Button onClick={() => setUserUpdateDialog(false)}>Cancel</Button>
                   <Button onClick={() => {
                     UpdateProfileInfo(user)
-                    GetUser()
                     setUserUpdateDialog(false)
                   }}
                     autoFocus>

@@ -41,14 +41,16 @@ export const LoginHandle = async (req, res)=>{
         if(!user){
             return res.status(400).json({message: "User doesn't exist with this phone number", resData: undefined})
         }
-
-        if(bcrypt.compare(userData.password, user.password)){
-            let token = jwt.sign(JSON.stringify(user), TokenSecret)
-            console.log(token)
-            res.status(200).json({message: 'Successfully logged in', resData: {token, user_type: user.type}})
-        }else{
-            return res.status(400).json({message: "Password doesn't match", resData: undefined})
-        }
+        bcrypt.compare(userData.password, user.password, function(err, result) {
+            if(result){
+                let token = jwt.sign(JSON.stringify(user), TokenSecret)
+                console.log(token)
+                res.status(200).json({message: 'Successfully logged in', resData: {token, user_type: user.type}})
+            }else{
+                return res.status(400).json({message: "Password doesn't match", resData: undefined})
+            }
+        });
+        
         // res.json({message: 'ok'})
     } catch (error) {
         console.log(error);

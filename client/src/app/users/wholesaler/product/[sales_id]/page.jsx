@@ -89,7 +89,7 @@ const ProjectDetails = ({params}) => {
 
       <div className="fpd-cover-img-box">
       <div style={{backgroundColor: '#00000050', height: '300px', width: '100%', position: 'absolute'}}></div>
-      <img src={`/images/${(productDetails?.stock_id?.product_name || '').toLowerCase()}-cover.jpg`}
+      <img src={`/images/${(productDetails?.stock_id?.product_name || '').replace(' ', '-').toLowerCase()}-cover.jpg`}
       
       style={{height: '100%', width: '100%', objectFit: 'cover'}} alt="" srcSet="" />
       </div>

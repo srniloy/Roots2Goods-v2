@@ -59,6 +59,7 @@ export const OfferCancellation = async (offer_id) => {
 export const GetWholesalerOffersList = async (user_id) => {
     let response = { message: "", status: 0, data: undefined }
     try {
+        console.log(user_id);
         const res = await axios.post(`${SERVER_URL}/trader/get-wholesaler-offers-list`,{user_id});
         if (res.status === 200) {
   
@@ -315,10 +316,10 @@ export const GetStockedProducts = async (user_id) => {
 }
 
 
-export const GetProductSales = async (product_name) => {
+export const GetProductSales = async (data) => {
     let response = { message: "", status: 0, data: undefined }
     try {
-        const res = await axios.post(`${SERVER_URL}/trader/get-product-sales`,{product_name});
+        const res = await axios.post(`${SERVER_URL}/trader/get-product-sales`,data);
         if (res.status === 200) {
             console.log(res.data.resData)
 

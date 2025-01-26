@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import AppMap from '../buy/_components/AppMap';
+import AppMap from '../_components/AppMap';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 

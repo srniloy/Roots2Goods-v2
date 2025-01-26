@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { createTheme, Stack, ThemeProvider, Tooltip } from '@mui/material';
-import TransportSelect from '../../transport-select/page';
+import TransportSelect from '../transport-select/page';
 import AppMap from '../_components/AppMap';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 import PaymentsIcon from '@mui/icons-material/Payments';

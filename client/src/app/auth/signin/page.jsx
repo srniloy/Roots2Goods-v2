@@ -78,12 +78,12 @@ const Signin = () => {
     console.log(userData)
     const response = await HandleSignin(userData)
     setIsSnackBarOpen(true)
-    const {token, user_type} = response.data.resData;
     setResponseData({
       message: response.message,
       alertType: alertType[response.status] || "info"
     });
     if (response.status === 200) {
+      const {token, user_type} = response.data.resData;
       router.push(`/users/${user_type.toLowerCase()}/dashboard`)
     }
   }

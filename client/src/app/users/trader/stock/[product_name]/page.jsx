@@ -148,8 +148,8 @@ const ProjectDetails = ({ params }) => {
     }
   }
 
-  const getAllSales = async ()=>{
-    const res = await GetProductSales(product_name)
+  const getAllSales = async (userData)=>{
+    const res = await GetProductSales({product_name, user_id: userData?._id})
     console.log(res.data);
     if(res.status == 200){
       const allSales = res.data
@@ -173,6 +173,8 @@ const ProjectDetails = ({ params }) => {
     const userData = await GetUserData("Trader");
     setUser(userData)
     fetchStocks(userData)
+    getAllSales(userData)
+
   }
 
   useEffect(() => {
@@ -185,7 +187,6 @@ const ProjectDetails = ({ params }) => {
   useEffect(() => {
     GetUser()
     // fetchStocks() On the GetUser
-    getAllSales()
 
   }, []);
 
