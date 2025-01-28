@@ -184,3 +184,28 @@ export const GetTransactions = async (user_id) => {
     }
     return response
 }
+
+
+export const GetDashboardAnalyticsData = async (user_id)=>{
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/farmer/get-dashboard-analytics-data`, { user_id });
+        if (res.status === 200) {
+            console.log(res.data.resData)
+
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+}

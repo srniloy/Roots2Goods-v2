@@ -126,62 +126,63 @@ const Transactions = (props) => {
                     transactionLists.length > 0 ?
                     transactionLists?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
+                      
                       return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                           {columns.map((column) => {
                             if(column.id == 'date'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {(row.createdAt).split('T')[0]}
+                                  {(row.createdAt).split('T')[0] || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'order_id'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row._id}
+                                  {row._id || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'buyer_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.buyer_id.name}
+                                  {row.buyer_id.name || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'seller_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.seller_id.name}
+                                  {row.seller_id.name || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'product_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.product_id?.product_name ? row.product_id.product_name : row.stock_id.product_name}
+                                  {row?.product_id?.product_name ? row?.product_id.product_name || '' : row.stock_id.product_name || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'quantity'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.sales_id.quantity}
+                                  {row?.sales_id?.quantity}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'price'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.sales_id.price}
+                                  {row?.sales_id?.price || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'amount'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {(row.sales_id.quantity*row.sales_id.price).toLocaleString('en-US')}
+                                  {(row?.sales_id?.quantity*row?.sales_id?.price).toLocaleString('en-US') || ''}
                                 </TableCell>
                               );
                             }
@@ -189,7 +190,7 @@ const Transactions = (props) => {
                               return (
                                 <TableCell key={column.id} align={column.align}>
                                   {column.format && typeof value === 'number'
-                                    ? column.format(value)
+                                    ? column.format(value) || ''
                                     : 'value'}
                                 </TableCell>
                               );

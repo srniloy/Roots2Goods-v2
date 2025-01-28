@@ -72,6 +72,10 @@ body {
   background-color: var(--color-darkslategray-200) !important;
 }
 
+.color-red{
+  color: red !important;
+}
+
 a {
   color: var(--color-white) !important;
   text-decoration: none !important;
@@ -85,7 +89,7 @@ a {
 
 .styled-scrollbar {
   scrollbar-width: normal;
-  scrollbar-color: #777 #555;
+  scrollbar-color: #2d3e1f rgba(255, 255, 255, 0.01);
 }
 
 .styled-scrollbar::-webkit-scrollbar {

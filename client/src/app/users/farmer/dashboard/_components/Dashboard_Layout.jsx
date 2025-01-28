@@ -1,5 +1,4 @@
 'use client'
-import '@styles/farmer-dashboard.css'
 import React, { useContext } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material';
 
@@ -26,7 +25,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import UserContext from '@context/userContext';
+import MenuIcon from '@mui/icons-material/Menu';
 
+import '@styles/farmer-dashboard.css'
+import '@styles/responsive.css'
 
 
 // ========================================= Notification ==============================================================
@@ -46,7 +48,7 @@ import { Suspense } from 'react';
 import Loading from '../loading';
 import { Loader } from '@app/loading';
 import { HandleLogout } from '@services/auth';
-import { GetUserData, UpdateProfileInfo } from '@services/fd-service/dashboard_service';
+import { GetDashboardAnalyticsData, GetUserData, UpdateProfileInfo } from '@services/fd-service/dashboard_service';
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 
@@ -86,11 +88,12 @@ const DashboardLayout = ({ children }) => {
   const [isLoad, setIsLoader] = React.useState(true);
   const [profileImgInfo, setProfileImgInfo] = React.useState(undefined)
 
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [user, setUser] = React.useState(undefined)
+
+
 
   async function GetUser() {
     const userData = await GetUserData("Farmer");
@@ -161,6 +164,82 @@ const DashboardLayout = ({ children }) => {
       <ThemeProvider theme={createTheme({ palette: { mode: "dark" } })}>
         <UserContext.Provider value={{ user, setUser }}>
           <section className="farmer-dashboard">
+            <input type="checkbox" id="farmerBarInput" />
+            <div className="farmer-menu" id="farmerMenuBox">
+              <div className="phone-frmr-profile-part">
+                <div className="farmer-info-box phone-profile-info">
+                <div className="frmr-profile-img-style">
+                  <div className="frmr-profile-img-wrapper">
+                    {
+                      user?.img == '' || user?.img == undefined ? (
+                        <img src={'/images/user.png'} key={'/images/user.png'} alt='' className="frmr-profile-img" />
+                      ) : (
+                        <img src={`${SERVER_URL}/${user?.img}`} key={`${SERVER_URL}/${user?.img}`} alt='' className="frmr-profile-img" />
+                      )
+                    }
+                  </div>
+                </div>
+                  <div className="frmr-name-tag phone-frmr-name-tag">
+                    <h4 className="frmr-name-h4">{user?.name}</h4>
+                    <div className="frmr-title-p">{user?.type}</div>
+                  </div>
+                  <div className="frmr-profile-infos ">
+                    <ul role="list" className="frmr-profile-info-list">
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Phone</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.phone}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>NID</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.nid}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Birth Date</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.birth_date}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Address</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.address}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div style={{ marginBottom: '20px', marginTop: '10px' }}>
+                    <Button onClick={() => setUserUpdateDialog(true)} color='success' variant='outlined'>Edit Info</Button>
+                  </div>
+                </div>
+              </div>
+              <div style={{width: '100%', display:"flex", justifyContent: 'center', alignItems: 'center'}}>
+                <Button
+                  variant={'contained'}
+                  color={'success'}
+                  style={{
+                    color: '#fff',
+                    minWidth: '200px',
+                    marginTop: '20px'
+                  }}
+                  onClick={
+                    ()=>{
+                      HandleLogout("Farmer")
+                      setIsLoader(true)
+                    }
+                  }
+                >
+                  Logout
+                  <LogoutIcon className='fd-nav-icon' style={{marginLeft: '10px'}} />
+                </Button>
+
+              </div>
+              
+            </div>
+                    
             <div className="fd-header">
               <div className="w-layout-blockcontainer fd-nav-container w-container">
                 <div className="w-layout-hflex fd-nav-flex-box">
@@ -171,6 +250,7 @@ const DashboardLayout = ({ children }) => {
                       marginBottom: '20px',
                       marginTop: '10px',
                     }}
+                    className='project-logo'
                   />
                   <ul role="list" className="fd-nav-icon-list">
 
@@ -421,8 +501,12 @@ const DashboardLayout = ({ children }) => {
 
                       </div>
                     </Menu>
+                    <label htmlFor="farmerBarInput" className="farmer-menu-bar-label">
+                        <MenuIcon className="menu-bar"/>
+                    </label>
+                    
 
-                    <Tooltip title='Logout'>
+                    <Tooltip title='Logout' className='logout-button'>
                       <IconButton
                         size="large"
                         aria-label="show 17 new notifications"
@@ -441,12 +525,11 @@ const DashboardLayout = ({ children }) => {
                 </div>
               </div>
             </div>
-            <div className="fd-main-part">
+            <div className="fd-main-part" id='FarmerMainPart'>
               <div className="w-layout-blockcontainer fd-container w-container">
                 <div className="w-layout-hflex farmer-dashboard-flex">
                   <div className="frmr-profile-part">
                     <div className="frmr-profile-img-style">
-                      {/* <img src="/images/bangla.png" className="frmr-profile-img"/> */}
                       <div className="frmr-profile-img-wrapper">
                         {
                           user?.img == '' || user?.img == undefined ? (
@@ -512,6 +595,7 @@ const DashboardLayout = ({ children }) => {
                     </div>
                     <div className="frmr-tab-container" style={{
                       maxWidth: "100%",
+                      height: 'max-content',
                     }}>
                       {children}
                     </div>

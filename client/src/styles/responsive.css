@@ -1,0 +1,201 @@
+#farmerBarInput{
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .frmr-total-calculations {
+      flex-direction: column;
+      width: 100%;
+      align-items: center !important;
+    }
+    .frmr-total-expences,
+    .frmr-total-sales,
+    .total-revenue{
+        width: 250px;
+    }
+    .frmr-tab-link-wrapper a{
+        padding: 15px 12px;
+    }
+    .frmr-tab-link-wrapper a{
+        font-size: 13px;
+    }
+    .frmr-profile-part{
+        display: none;
+    }
+    .farmer-dashboard{
+        height: max-content;
+    }
+    .chart-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .pie-chart,
+    .bar-chart{
+        width:100%;
+        padding: 5px !important;
+        border-radius: 5px;
+    }
+    .bar-chart{
+        margin-bottom: 20px;
+    }
+    .frmr-other-part{
+        width: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+
+    }
+    .logout-button{
+        display: none;
+    }
+    .menu-bar-label{
+        display: block;
+    }
+    .farmer-menu{
+    flex-direction: column;
+    position: absolute;
+    left: -100%;
+    top: 90px;
+    background-color: var(--color-darkslategray-100);
+    border: 1px solid #344c31;
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+    height: 100% !important;
+    transition: all 500ms;
+    flex: 200;
+    }
+    #farmerBarInput:checked ~ #farmerMenuBox{
+        left: 0;
+        z-index: 100;
+    }
+    #farmerBarInput:checked ~ #FarmerMainPart{
+        display: none;
+    }
+    .farmer-menu-bar-label{
+    cursor: pointer;
+    }
+    .farmer-menu-bar-label .menu-bar{
+    color: white;
+    margin-bottom: 10px;
+    }
+    .project-logo{
+        height: 35px !important;
+    }
+    .phone-profile-info{
+        width: 100%;
+        top: 0;
+        padding-top: 20px;
+        border-radius: 10px;
+    }
+    .phone-frmr-name-tag{
+        margin-top: 10px !important;
+    }
+    .frmr-porject-tab-item{
+        padding: 10px !important;
+        font-size: 11px;
+    }
+    .fp-project-container {
+        grid-column-gap: 15px;
+        grid-row-gap: 30px;
+        grid-template-rows: auto auto;
+        grid-template-columns: 1fr;
+        grid-auto-columns: 1fr;
+        margin: 40px 0;
+        display: grid;
+        width: min-content;
+        padding-bottom: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+    .cards-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .fp-card-cover-img {
+        width: 300px !important;
+        height: auto;
+        
+    }
+    .add-project-btn{
+    margin-left: 15px;
+    }
+
+    .fpd-project-detail-heading {
+    font-size: 30px !important;
+    margin-left: 10px;
+    }
+    .product-detail-card{
+        padding: 10px 15px !important;
+    }
+    .product-detail-card h6{
+        font-size: 14px;
+    }
+    .product-detail-card p{
+        font-size: 12px;
+    }
+    .product-details-info-container{
+        justify-content: 'center' !important;
+        align-items: center !important;
+        padding-left: 10px;
+    }
+    .fpd-calc-item {
+        padding: 10px 15px !important;
+    }
+    .fpd-tab-link {
+        padding: 10px 10px !important;
+        font-size: 12px !important;
+
+    }
+    .fpd-table-action-buttons{
+        display: none;
+    }
+    .phone-fpd-table-action-buttons{
+        display: block;
+    }
+    .dialog-form{
+        width: 100% !important;
+    }
+    .tab-wrapper{
+        width: 100%;
+        overflow: scroll;
+    }
+
+    .card-container{
+        justify-content: center;
+    }
+    .fpd-cover-img-box{
+        height: 200px !important;
+    }
+    .fpd-cover-img-box div{
+        height: 200px !important;
+    }
+    .transprot-add-button{
+        flex-direction: column;
+    }
+    .phone-billing-order-id{
+        display: block !important;
+    }
+    .billing-order-id{
+        display: none !important;
+    }
+    .transport-select-container{
+        z-index: 200;
+        margin: 0 !important;
+    }
+    .transport-select-container .hstack{
+        flex-direction: column !important;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .transport-select-container .hstack div{
+        flex-direction: column !important;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .transport-main-container{
+        height: 150vh !important;
+    }
+
+}

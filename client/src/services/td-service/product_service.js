@@ -382,3 +382,86 @@ export const GetSalesOffersList = async (sales_id) => {
     }
     return response
 }
+
+
+
+export const OrderCancellation = async (order_id) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/order-cancellation`,{order_id});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+
+  
+
+
+
+  export const GetPercentage = async (product) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/get-percentage`,{product});
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+
+  
+  export const UpdateProjectSales = async (data) => {
+    let response = { message: "", status: 0, data: undefined }
+    try {
+        const res = await axios.post(`${SERVER_URL}/trader/update-sales`,data);
+        if (res.status === 200) {
+            // console.log(res.data.resData)
+  
+            response = {
+                message: res.data.message,
+                status: res.status,
+                data: res.data.resData
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        response = {
+            message: error.response?.data.message || error.message,
+            status: error.status,
+            data: undefined
+        }
+    }
+    return response
+  }
+
+
+
+

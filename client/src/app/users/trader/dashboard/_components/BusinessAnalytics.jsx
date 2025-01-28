@@ -4,92 +4,21 @@ import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDemoData } from '@mui/x-data-grid-generator';
-// import ReactApexChart from 'react-apexcharts'
+import ReactApexChart from 'react-apexcharts'
 
 
-import React, { Component } from 'react';
+import React, { Component, useContext, useEffect } from 'react';
+import UserContext from '@context/userContext';
+import { GetDashboardAnalyticsData } from '@services/td-service/dashboard_service';
 
 
 
 const BusinessAnalytics = (props) => {
-
-
-
-  const [totalCalculations, setTotalCalculations] = React.useState(undefined)
-  // const [projectData, setProjectData] = React.useState(undefined)
-  const [pieData, setPieData] = React.useState([])
-  // let pieDataInit = [];
-
-
-  const fetchTotalCalculations = async ()=>{
-
-      // const postData = {
-      // method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      // body: JSON.stringify({user_id: props.info?.user_id}),
-      // };
-
-      // const res = await fetch(
-      // '/api/get/total_calculations',
-      // postData
-      // )
-      // const response = await res.json()
-      // setTotalCalculations(response.data)
-      // console.log(response.data)
-      // setIsLoad(false)
-
-      console.log("object");
-      
-  }
-  let productsList = []
-  let salesList = []
-  let datesList = []
-
-  const fetchPieData = async ()=>{
-
-    // const postData1 = {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({user_id: props.info?.user_id}),
-    //   };
-  
-    //   const res1 = await fetch(
-    //   'http://localhost:3000/api/get/get_project_info_for_graph',
-    //   postData1
-    //   )
-    //   const response1 = await res1.json()
-
-    //   response1.data.map((data, i)=>{
-    //     productsList.push(data.product)
-    //     salesList.push(data.total_sales)
-    //     datesList.push(data.date)
-    //   })
-    //   setPieData(response1.data)
-    console.log("object");
-}
-
-
-  
-  React.useEffect(() => {
-    fetchTotalCalculations()
-    fetchPieData()
-  }, []);
-
-
-
-
-
-
-
   const [topExpenseSectors, setTopExpenseSectors] = React.useState({
-    series: [44, 55, 13, 43],
+    series: [],
     options: {
         title: {
-            text: 'Revenue Generated', // Set the title text
+            text: 'Profit Per Product', // Set the title text
             align: 'center', // Set the title alignment (left, center, right)
             margin: 50,
             style: {
@@ -101,22 +30,46 @@ const BusinessAnalytics = (props) => {
         chart: {
             width: 420,
             type: 'pie',
-            background: '#223f3d',
+            background: '#223f3d'
         },
-        colors: ['rgb(24, 119, 242)', 'rgb(255, 86, 48)', 'rgb(0, 184, 217)', 'rgb(255, 171, 0)', '#81ae40', '#40ae9f'],
+        colors: [
+          "#2a69c7",
+          "#2b908f",
+          "#f48024",
+          "#d4526e",
+          "#EFB036",
+          "#13d8aa",
+          "#69d2e7",
+          "#90ee7e",
+          "#f9a3a4",
+          "#546E7A",
+          "#A5978B",
+        ],
         theme: {
             mode: 'dark',
         },
-        labels: ['Tometo', 'Cabbage', 'Onion', 'Poteto'],
+        labels: [],
         responsive: [{
-            breakpoint: 480,
+            breakpoint: 640,
+
             options: {
                 chart: {
-                    width: 200
+                    width: "100%",
+                    height: 300,
+                    margin: 0,
+                    toolbar: {
+                      show: false, // Disable the toolbar if not needed
+                    },
                 },
                 legend: {
-                    position: 'bottom'
-                }
+                    position: 'bottom',
+                    fontSize: '11px',
+                    offsetY: 0,
+                    width: '100%',
+                    markers: {
+                      size: 3,
+                  },
+                },
             }
         }],
   
@@ -129,6 +82,7 @@ const BusinessAnalytics = (props) => {
             position: 'right', // Set the legend position
             offsetY: 80, // Set the margin from the bottom of the legend
             markers: {
+              size: 5,
                 width: 15, // Set the width of legend markers
                 height: 15, // Set the height of legend markers
             },
@@ -136,11 +90,57 @@ const BusinessAnalytics = (props) => {
         },
     },
   })
+
+  const {user, setUser} = useContext(UserContext)
+  const [totalValues, setTotalValues] = React.useState({totalCost: 0, totalSales: 0, totalProfit: 0})
+  
+  const getAnalyticsData = async(user_id)=>{
+    const res = await GetDashboardAnalyticsData(user_id)
+    if(res.status == 200){
+      const {totalCost, totalSales, totalProfit, productWithProfit, salesOverMonth} = res.data
+      setTotalValues({totalCost, totalSales, totalProfit})
+      setTopExpenseSectors((prev) => ({
+        ...prev,
+        series: productWithProfit.map(item => item.totalProfit), // Set total profits as series
+        options: {
+          ...prev.options,
+          labels: productWithProfit.map(item => item.product_name), // Set product names as labels
+        },
+      }));
+      setTopSellingProduct((prev) => ({
+        ...prev,
+        series: [{data: salesOverMonth.map(item => item.amount)}], 
+        options: {
+          ...prev.options,
+          xaxis: {
+            categories: salesOverMonth.map(item => item.collection_date)
+        }
+        },
+      }));
+
+    }
+  }
+
+  useEffect(()=>{
+    if(user){
+      getAnalyticsData(user._id)
+    }
+  }, [user])
+
+
+
+
+
+
+
+
+
+
   
   
   const [topSellingProduct, setTopSellingProduct] = React.useState({
     series: [{
-        data: [400, 430, 448, 470, 540]
+        data: []
     }],
     options: {
         title: {
@@ -184,12 +184,34 @@ const BusinessAnalytics = (props) => {
   
             }
         },
+        responsive: [{
+          breakpoint: 640,
+
+          options: {
+              chart: {
+                  width: "100%",
+                  height: 350,
+                  margin: 0,
+                  toolbar: {
+                    show: false, // Disable the toolbar if not needed
+                  },
+              },
+              legend: {
+                  position: 'bottom',
+                  fontSize: '11px',
+                  offsetY: 0,
+                  width: '100%',
+                  markers: {
+                    size: 3,
+                },
+              },
+          }
+      }],
         dataLabels: {
             enabled: false,
         },
         xaxis: {
-            categories: ['Jan 01, 2023','Feb 04, 2023','Mar 23, 2023','Jun 3, 2023','jul 8, 2023',
-            ],
+            categories: [],
         },
         grid: {
             borderColor: '#366562',
@@ -216,70 +238,76 @@ const BusinessAnalytics = (props) => {
 
 
 
+
   
   return (
     
     <div className="business_analytics">
-      <div className="w-layout-hflex frmr-total-calculations">
-        <div className="frmr-total-expences">
-          <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/investing.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '68px'}}/>
-            <div className="frmr-total-calc-text">
-              <h5 className="frmr-total-calc-h4">Total Expenses</h5>
-              <h4 className="frmr-total-calc-h5">{totalCalculations?.expense} <span className="text-span-3"></span></h4>
-            </div>
-          </div>
-        </div>
-        <div className="frmr-total-sales">
-          <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/acquisition.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '64px'}}/>
-            <div className="frmr-total-calc-text">
-              <h5 className="frmr-total-calc-h4">Total Sales</h5>
-              <h4 className="frmr-total-calc-h5">{totalCalculations?.sales} <span className="text-span-3"></span></h4>
-            </div>
-          </div>
-        </div>
-        <div className="total-revenue">
-          <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/revenue.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '64px'}}/>
-            <div className="frmr-total-calc-text">
-              <h5 className="frmr-total-calc-h4">Total Profit</h5>
-              <h4 className="frmr-total-calc-h5">{totalCalculations?.revenue} <span className="text-span-3"></span></h4>
-            </div>
-          </div>
-        </div>
-        {/* <div className="frmr-total-stocked">
-          <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/stock.png" loading="lazy" alt="" className="frmr-total-calc-icons"/>
-            <div className="frmr-total-calc-text">
-              <h5 className="frmr-total-calc-h4">Total Stocked</h5>
-              <h4 className="frmr-total-calc-h5">25,000 <span className="text-span-3"></span></h4>
-            </div>
-          </div>
-        </div> */}
-      </div>
-
-      <div className="ba-charts">
-
-          
-          {/* <Stack direction='row' gap={2}>
-          <div style={{ padding: '0 20px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
-                    <ReactApexChart options={topExpenseSectors.options} series={topExpenseSectors.series} type="pie" width={400} />
+      <div style={{height: 'max-content'}}>
+          <div className="w-layout-hflex frmr-total-calculations">
+            <div className="frmr-total-expences">
+              <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/investing.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '68px'}}/>
+                <div className="frmr-total-calc-text">
+                  <h5 className="frmr-total-calc-h4">Total Expenses</h5>
+                  <h4 className="frmr-total-calc-h5">{totalValues?.totalCost.toLocaleString('en-US')} <span className="text-span-3"></span></h4>
                 </div>
-
-                <div style={{ padding: '0 20px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
-                    <ReactApexChart options={topSellingProduct.options} series={topSellingProduct.series} type="bar" height={350} width={400} />
-
+              </div>
+            </div>
+            <div className="frmr-total-sales">
+              <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/acquisition.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '64px'}}/>
+                <div className="frmr-total-calc-text">
+                  <h5 className="frmr-total-calc-h4">Total Sales</h5>
+                  <h4 className="frmr-total-calc-h5">{totalValues?.totalSales.toLocaleString('en-US')} <span className="text-span-3"></span></h4>
                 </div>
-          </Stack> */}
+              </div>
+            </div>
+            <div className="total-revenue">
+              <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/revenue.png" loading="lazy" alt="" className="frmr-total-calc-icons" style={{width: '64px'}}/>
+                <div className="frmr-total-calc-text">
+                  <h5 className="frmr-total-calc-h4">Total Profit</h5>
+                  <h4 className="frmr-total-calc-h5">{totalValues?.totalProfit.toLocaleString('en-US')} <span className="text-span-3"></span></h4>
+                </div>
+              </div>
+            </div>
+            {/* <div className="frmr-total-stocked">
+              <div className="w-layout-hflex frmr-total-calc-flex"><img src="/images/stock.png" loading="lazy" alt="" className="frmr-total-calc-icons"/>
+                <div className="frmr-total-calc-text">
+                  <h5 className="frmr-total-calc-h4">Total Stocked</h5>
+                  <h4 className="frmr-total-calc-h5">25,000 <span className="text-span-3"></span></h4>
+                </div>
+              </div>
+            </div> */}
+          </div>
+
+          <div className="ba-charts">
+
+              
+              <Stack gap={2} className='chart-wrapper' direction={{ xs: 'column', md: 'row' }}>
+              
+              <div style={{ padding: '0 20px 10px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
+                        <ReactApexChart options={topExpenseSectors.options} series={topExpenseSectors.series} type="pie" width={460} />
+                    </div>
+
+                    <div style={{ padding: '0 20px 20px', borderRadius: '10px', backgroundColor: '#223f3d', width: 'fit-content' }}>
+                        <ReactApexChart options={topSellingProduct.options} series={topSellingProduct.series} type="bar" height={350} width={480} />
+
+                    </div>
+              </Stack>
 
 
-          
+
+              
 
 
-          
-		
-		
-		
-	
+              
+        
+        
+        
+      
 
 
+
+          </div>
 
       </div>
 

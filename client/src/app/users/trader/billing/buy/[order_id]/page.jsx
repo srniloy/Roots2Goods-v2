@@ -148,7 +148,7 @@ const confirmOrder = async ()=>{
                                     <div>
                                         <h5 className="font-size-18 mb-1">Transportation</h5>
                                         <p className="text-muted text-truncate mb-4">Select transport vehicle</p>
-                                        <div className="mb-3" style={{display: 'flex', gap: '20px'}}>
+                                        <div className="mb-3 transprot-add-button" style={{display: 'flex', gap: '20px'}}>
                                             <Button variant='outlined' onClick={()=> setMapDialog(false)} color='primary' startIcon={<LocalShippingIcon color='primary'/>}>Add Transport</Button>
                                             <Button variant='outlined' color='primary' startIcon={<RemoveCircleIcon color='primary'/>}
                                                 onClick={()=>{
@@ -269,7 +269,8 @@ const confirmOrder = async ()=>{
                 <div className="card checkout-order-summary">
                     <div className="card-body">
                         <div className="p-3 mb-3" style={{backgroundColor: '#344c31', borderRadius: '10px'}}>
-                            <h5 className="font-size-16 mb-0">Order Summary <span className="float-end ms-2">#{order_id}</span></h5>
+                            <h5 className="font-size-16 mb-0">Order Summary <span className="float-end ms-2 billing-order-id">#{order_id}</span></h5>
+                            <p className='phone-billing-order-id' style={{display: 'none', marginTop: '10px'}}>#{order_id}</p>
                         </div>
                         <div className="table-responsive order-table-wrapper">
                             <table className="table table-centered mb-0 table-nowrap order-table">

@@ -1,9 +1,9 @@
-import BusinessAnalytics from './_components/BusinessAnalytics'
 import React from 'react'
+import StockedProducts from './_components/Stocks'
 
 const DefaultBusinessAnalytics = () => {
   return (
-    <BusinessAnalytics/>
+    <StockedProducts/>
   )
 }
 

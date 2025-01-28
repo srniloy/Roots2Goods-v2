@@ -44,7 +44,7 @@ import ConfirmationAlert from '@components/ui/confirmation-alert';
 import { AddExpenseDialog, AddSalesDialog, ProjectUpdateDialog } from './_components/dialogs';
 import SalesTable from './_components/sales_table';
 import AcceptedOffersTable from './_components/accepted_offers_table';
-
+import '@styles/responsive.css'
 
 // import Button from '@mui/material/Button';
 // import Dialog from '@mui/material/Dialog';
@@ -318,7 +318,7 @@ const ProjectDetails = ({ params }) => {
 
           </div>
           <div className="fpd-basic-info">
-            <Stack direction={'row'} gap={'20px'} style={{ marginTop: '30px' }}>
+            <Stack className='product-details-info-container' direction={'row'} gap={'20px'} style={{ marginTop: '30px', width: '100%' }} sx={{ flexWrap: 'wrap' }}>
 
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{
@@ -327,7 +327,7 @@ const ProjectDetails = ({ params }) => {
                   gap: '10px',
                   padding: '20px 30px',
                   borderRadius: '10px'
-                }}>
+                }} className='product-detail-card'>
                   <InventoryIcon fontSize='large' style={{ color: '#f7c35f' }} />
                   <div>
                     <h6 style={{ color: "#f7c35a", fontWeight: 'bold' }}>Product Type</h6>
@@ -345,7 +345,7 @@ const ProjectDetails = ({ params }) => {
                   gap: '10px',
                   padding: '20px 30px',
                   borderRadius: '10px'
-                }}>
+                }} className='product-detail-card'>
                   <ForestIcon fontSize='large' style={{ color: '#f7c35f' }} />
                   <div>
                     <h6 style={{ color: "#f7c35a", fontWeight: 'bold' }}>Seedling</h6>
@@ -361,7 +361,7 @@ const ProjectDetails = ({ params }) => {
                   gap: '10px',
                   padding: '20px 30px',
                   borderRadius: '10px'
-                }}>
+                }} className='product-detail-card'>
                   <LandscapeIcon fontSize='large' style={{ color: '#f7c35f' }} />
                   <div>
                     <h6 style={{ color: "#f7c35a", fontWeight: 'bold' }}>Land</h6>
@@ -377,7 +377,7 @@ const ProjectDetails = ({ params }) => {
                   gap: '10px',
                   padding: '20px 30px',
                   borderRadius: '10px'
-                }}>
+                }} className='product-detail-card'>
                   <CalendarMonthIcon fontSize='large' style={{ color: '#f7c35f' }} />
                   <div>
                     <h6 style={{ color: "#f7c35a", fontWeight: 'bold' }}>Starting Date</h6>
@@ -389,7 +389,9 @@ const ProjectDetails = ({ params }) => {
 
 
             </Stack>
-            <div className="w-layout-hflex fpd-total-calculations">
+
+            <Stack className='product-details-info-container' direction={'row'} gap={'20px'} style={{ marginTop: '30px', width: '100%' }} sx={{ flexWrap: 'wrap' }}>
+
               <div className="fpd-calc-item">
                 <div className="w-layout-hflex fpd-total-calc-flex"><img src="/images/investing.png" loading="lazy" alt="" className="fpd-total-calc-icons" />
                   <div className="fpd-total-calc-text">
@@ -414,7 +416,8 @@ const ProjectDetails = ({ params }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Stack>
+
           </div>
           <div className="w-layout-hflex fpd-tab-link-container">
             <div className="fpd-tab-links" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -428,8 +431,11 @@ const ProjectDetails = ({ params }) => {
                 <a className="fpd-tab-link" onClick={(e) => fpdTabClickAction(e)}>Accepted Offers</a>
               </div>
             </div>
-            <div className="fpd-table-action-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px', marginRight: '10px' }}>
-              <Button variant='outline' onClick={() => { tabState == 'Expenses' ? setIsAddEnpenseDialogOpen(true) : setIsAddSalesDialogOpen(true) }} style={{ color: '#fff', backgroundColor: '#ffffff22' }} startIcon={<AddIcon />}>Add {tabState == 'Expenses' ? 'Expense' : 'Sales'}</Button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px', marginRight: '10px' }}>
+              <Button className='fpd-table-action-buttons' variant='outline' onClick={() => { tabState == 'Expenses' ? setIsAddEnpenseDialogOpen(true) : setIsAddSalesDialogOpen(true) }} style={{display: 'none', color: '#fff', backgroundColor: '#ffffff22' }} startIcon={<AddIcon />}>Add {tabState == 'Expenses' ? 'Expense' : 'Sales'}</Button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '30px', marginRight: '10px' }}>
+              <Button className='phone-fpd-table-action-buttons' variant='outline' onClick={() => { tabState == 'Expenses' ? setIsAddEnpenseDialogOpen(true) : setIsAddSalesDialogOpen(true) }} style={{ color: '#fff', backgroundColor: '#ffffff22' }} > <AddIcon /></Button>
             </div>
           </div>
           <div className="fpd-project-details-tab-container" style={{ minHeight: '400px' }}>

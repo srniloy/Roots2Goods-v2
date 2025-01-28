@@ -37,7 +37,10 @@ const BuyProducts = (props) => {
                 </div>
             </div>
         </div>
+    <div className='styled-scrollbar' style={{marginTop: '10px', height: '470px', overflowY: 'scroll', padding: '20px',position:'relative'}}>
+
         {tabType}
+        </div>
     </div>
   )
 }

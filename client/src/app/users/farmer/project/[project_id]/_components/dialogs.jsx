@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { red } from '@mui/material/colors';
 import { useRouter } from 'next/navigation';
 
+import '@styles/responsive.css'
 
 
 
@@ -61,9 +62,9 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
             {"Update Project"}
             </DialogTitle>
             <DialogContent>
-                <form autoComplete="off" noValidate style={{width: '420px'}}>
+                <form className='dialog-form' autoComplete="off" noValidate style={{width: '420px'}}>
                     <TextField
-                    style={{ width: "400px", margin: "6px" }}
+                    style={{ width: "100%", margin: "6px" }}
                     type="text"
                     required
                     label="Project Title"
@@ -81,7 +82,7 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
                     <Autocomplete
                       disablePortal
                       id="combo-box-demo"
-                      style={{ width: "400px", margin: "6px" }}
+                      style={{ width: "100%", margin: "6px" }}
                       options={products}
                       value={project?.product_name}
                       onChange={(e)=> {
@@ -94,7 +95,7 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
                     />
                     
                     <TextField
-                    style={{ width: "400px", margin: "6px" }}
+                    style={{ width: "100%", margin: "6px" }}
                     type="number"
                     label="Seedling"
                     name='seedling'
@@ -109,7 +110,7 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
                     />
                     <br />
                     <TextField
-                    style={{ width: "400px", margin: "6px" }}
+                    style={{ width: "100%", margin: "6px" }}
                     type="number"
                     label="Land Size (Acr)"
                     value={project?.land}
@@ -123,7 +124,7 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
                     variant="outlined"
                     />
                     
-                    <FormControl style={{ width: "400px", margin: "6px" }}>
+                    <FormControl style={{ width: "100%", margin: "6px" }}>
                         <InputLabel id="demo-simple-select-label">Status</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -143,7 +144,7 @@ export function ProjectUpdateDialog({open, setOpen, project, setProject, onConfi
                         </FormControl>
 
                     <TextField
-                    style={{ width: "400px", margin: "6px" }}
+                    style={{ width: "100%", margin: "6px" }}
                     type="date"
                     focused
                     label="Start Time"
@@ -202,9 +203,9 @@ export function AddExpenseDialog({open, setOpen, addExpenseData, setAddExpenseDa
             {"Add Expenses"}
             </DialogTitle>
             <DialogContent>
-                <form style={{width: '410px'}}>
+                <form className='dialog-form' style={{width: '410px'}}>
                     <TextField
-                    style={{ width: "400px", margin: "5px" }}
+                    style={{ width: "100%", margin: "5px" }}
                     type="text"
                     value={addExpenseData.sector}
                     onChange={(e)=> {
@@ -218,7 +219,7 @@ export function AddExpenseDialog({open, setOpen, addExpenseData, setAddExpenseDa
                     />
                     <br />
                     <TextField
-                    style={{ width: "400px", margin: "5px" }}
+                    style={{ width: "100%", margin: "5px" }}
                     type="number"
                     label="Measurement Unit"
                     value={addExpenseData.unit}
@@ -232,7 +233,7 @@ export function AddExpenseDialog({open, setOpen, addExpenseData, setAddExpenseDa
                     />
                     <br />
                     <TextField
-                    style={{ width: "400px", margin: "5px" }}
+                    style={{ width: "100%", margin: "5px" }}
                     type="number"
                     label="Cost"
                     value={addExpenseData.cost}
@@ -245,7 +246,7 @@ export function AddExpenseDialog({open, setOpen, addExpenseData, setAddExpenseDa
                     variant="outlined"
                     />
                     <TextField
-                    style={{ width: "400px", margin: "5px" }}
+                    style={{ width: "100%", margin: "5px" }}
                     type="date"
                     value={addExpenseData.date}
                     onChange={(e)=> {
@@ -291,9 +292,9 @@ export function AddSalesDialog({open, setOpen, addSalesData , setAddSalesData, o
         {"Add Sales"}
         </DialogTitle>
         <DialogContent>
-            <form style={{width: '410px'}}>
+            <form className='dialog-form' style={{width: '410px'}} >
                 <TextField
-                style={{ width: "400px", margin: "5px" }}
+                style={{ width: "100%", margin: "5px" }}
                 type="number"
                 label="Quantity (kg)"
                 variant="outlined"
@@ -306,7 +307,7 @@ export function AddSalesDialog({open, setOpen, addSalesData , setAddSalesData, o
                 }}
                 />
                 <TextField
-                style={{ width: "400px", margin: "5px" }}
+                style={{ width: "100%", margin: "5px" }}
                 type="number"
                 label="Price (per kg)"
                 variant="outlined"
@@ -318,7 +319,7 @@ export function AddSalesDialog({open, setOpen, addSalesData , setAddSalesData, o
                   }))
                 }}
                 />
-                <FormControl style={{ width: "400px", margin: "10px 5px" }}>
+                <FormControl style={{ width: "100%", margin: "10px 5px" }}>
                   <InputLabel id="demo-simple-select-label">Status</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
@@ -337,7 +338,7 @@ export function AddSalesDialog({open, setOpen, addSalesData , setAddSalesData, o
                   </Select>
                 </FormControl>
                 <TextField
-                style={{ width: "400px", margin: "5px" }}
+                style={{ width: "100%", margin: "5px" }}
                 type="date"
                 label="Collection Date"
                 focused

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AddProjectExpense, AddProjectSales, CreateNewProject, DeleteExpense, DeleteProject, DeleteSales, GetAcceptedOffersList, GetOffersList, GetProjectDetails, GetProjectExpenses, GetProjects, GetProjectSales, GetTransactions, OfferCancellation, UpdateExpense, UpdateProfileInfo, UpdateProjectInfo, UpdateSales, UpdateStatusOnOfferAcceptance } from "../controllers/farmer-request-controller.js";
+import { AddProjectExpense, AddProjectSales, CreateNewProject, DeleteExpense, DeleteProject, DeleteSales, GetAcceptedOffersList, GetDashboardAnalyticsData, GetOffersList, GetProjectDetails, GetProjectExpenses, GetProjects, GetProjectSales, GetTransactions, OfferCancellation, UpdateExpense, UpdateProfileInfo, UpdateProjectInfo, UpdateSales, UpdateStatusOnOfferAcceptance } from "../controllers/farmer-request-controller.js";
 import multer from 'multer';
 
 
@@ -59,6 +59,12 @@ farmerRouter.post('/offer-cancellation', OfferCancellation)
 
 
 farmerRouter.post('/get-transactions', GetTransactions)
+
+
+// ========================================= Dashbaord Analytics =================================================
+
+farmerRouter.post('/get-dashboard-analytics-data', GetDashboardAnalyticsData)
+
 
 
 export default farmerRouter

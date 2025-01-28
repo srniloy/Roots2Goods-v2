@@ -45,16 +45,26 @@ const StockedProducts = () => {
   const router = useRouter()
   return (
     <>
-     
+     <div className='styled-scrollbar' style={{
+                     width: '100%',
+                     maxHeight: '500px',
+                     minHeight: '450px',
+                     position: 'relative',
+                     zIndex: 0,
+                     height: 'max-content',
+                     overflowY: 'scroll',
+                     padding: '20px 0px',
+                 }}>
       <Grid  container gap={2}
+      className='card-container'
       style={{
-        marginTop: '50px',
+        marginTop: '30px',
         position: 'relative',
       }}>
         {
           products?.map((product)=>{
             return (
-              <Card key={product.product_name} sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
+              <Card key={product.product_name} sx={{ width: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
                 <CardActionArea onClick={()=>{
                   router.push(`/users/wholesaler/stock/${product?.product_name.replace(' ','-')}`)
                   setLoaderOpen(true)
@@ -85,6 +95,7 @@ const StockedProducts = () => {
         }
         
       </Grid>
+      </div>
     </>
   )
 }

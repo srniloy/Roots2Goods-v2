@@ -154,7 +154,7 @@ const ProjectLayout = ({ children }) => {
 
 
     return (
-        <div className="w-layout-vflex frmr-projects-box">
+        <div className="w-layout-vflex frmr-projects-box styled-scrollbar">
             <Loader open={isLoad.full} />
             <div className="w-layout-hflex frmr-projects-tabs">
                 <div className="w-layout-hflex frmr-project-tab-wrapper" id='project_type_tabs'>
@@ -172,7 +172,7 @@ const ProjectLayout = ({ children }) => {
                     >Completed Projects</p>
                 </div>
                 {/* <a href="#" className="frmr-project-create-btn"><span className="frmr-project-create-plus-icon">+</span></a> */}
-                <Tooltip title='Create Project'>
+                <Tooltip className='add-project-btn' title='Create Project'>
                     <IconButton
                         size="large"
                         aria-label="show 17 new notifications"
@@ -184,12 +184,15 @@ const ProjectLayout = ({ children }) => {
                     </IconButton>
                 </Tooltip>
             </div>
-            <div style={{
+            <div className='styled-scrollbar cards-container' style={{
                 width: '100%',
                 maxHeight: '450px',
                 minHeight: '450px',
                 position: 'relative',
-                zIndex: 0
+                zIndex: 0,
+                height: 'max-content',
+                overflow: 'scroll',
+                padding: '10 0px',
             }}>
 
 

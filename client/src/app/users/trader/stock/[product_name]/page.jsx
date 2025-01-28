@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, createTheme, Stack, ThemeProvider } from '@mui/material';
 // import ExpenseTable from '@components/ExpenseTable';
 // import SellingTable from '@components/trader/SellingTable';
@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import '@styles/farmer-dashboard.css'
+import '@styles/responsive.css'
 import { Suspense } from 'react';
 import Loading from '@app/loading';
 // import SlotTable from '@components/trader/SlotTable';
@@ -191,22 +192,34 @@ const ProjectDetails = ({ params }) => {
   }, []);
 
 
+  const [maxQuantity, setMaxQuantity] = useState(0)
+
 
   const addSales = async ()=>{
     console.log(salesData);
-    console.log(slots);
-    const res = await AddNewProductSale({sales_info: salesData, stock_id: slots})
-    if(res.status == 200){
-      console.log(res.data);
-    }else{
-      alert(res.message)
+    console.log(maxQuantity);
+    if(salesData.quantity <= maxQuantity){
+      const res = await AddNewProductSale({sales_info: salesData, stock_id: slots})
+      if(res.status == 200){
+        console.log(res.data);
+      }else{
+        alert(res.message)
+      }
+    }
+    else{
+      alert("You can't sell more than stocked slot's quantity")
     }
   }
 
 
 
 
-
+const setTheMaxSalesQuantity = (_id)=>{
+  stockSlotsInfo?.map(stock => {
+    if (stock._id == _id)
+      return setMaxQuantity(stock.quantity)
+  })
+}
 
 
 
@@ -228,7 +241,8 @@ const ProjectDetails = ({ params }) => {
         <h1 className="fpd-project-detail-heading">{product_name} </h1>
         <div className="fpd-basic-info">
           
-          <div className="w-layout-hflex fpd-total-calculations">
+            <Stack className='product-details-info-container' direction={'row'} gap={'20px'} style={{ marginTop: '30px', width: '100%' }} sx={{ flexWrap: 'wrap' }}>
+            
             <div className="fpd-calc-item">
               <div className="w-layout-hflex fpd-total-calc-flex"><img src="/images/investing.png" loading="lazy" alt="" className="fpd-total-calc-icons" />
                 <div className="fpd-total-calc-text">
@@ -261,7 +275,8 @@ const ProjectDetails = ({ params }) => {
                 </div>
               </div>
             </div>
-          </div>
+            </Stack>
+            
         </div>
         <div className="w-layout-hflex fpd-tab-link-container">
           <div className="fpd-tab-links" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -298,8 +313,8 @@ const ProjectDetails = ({ params }) => {
             {"Add Sales"}
           </DialogTitle>
           <DialogContent>
-            <form style={{ width: '410px' }}>
-              <FormControl style={{ width: "400px", margin: "10px 5px" }}>
+            <form className="dialog-form" style={{ width: '410px' }}>
+              <FormControl style={{ width: "100%", margin: "10px 5px" }}>
                 <InputLabel id="demo-simple-select-label">Slot</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -308,7 +323,9 @@ const ProjectDetails = ({ params }) => {
                   value={slots}
                   onChange={(e) => {
                     setSlots(e.target.value)
+                    setTheMaxSalesQuantity(e.target.value)
                   }}
+                  
                 >
                   {
                     stockSlotsInfo?.map(stock => {
@@ -322,7 +339,7 @@ const ProjectDetails = ({ params }) => {
               </FormControl>
 
               <TextField
-                style={{ width: "400px", margin: "5px" }}
+                style={{ width: "100%", margin: "5px" }}
                 type="number"
                 label="Quantity (kg)"
                 variant="outlined"
@@ -335,7 +352,7 @@ const ProjectDetails = ({ params }) => {
                 }}
               />
               <TextField
-                style={{ width: "400px", margin: "5px" }}
+                style={{ width: "100%", margin: "5px" }}
                 type="number"
                 label="Price"
                 variant="outlined"

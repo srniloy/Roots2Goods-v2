@@ -4,6 +4,7 @@ import { configDotenv } from "dotenv"
 import jwt from 'jsonwebtoken'
 import {OfferModel, OrderModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel, StockModel, TraderSalesModel, TransportModel, WholesalerOfferModel, WholesalerOrderModel, WholesalerStockModel, WholesalerTransportModel} from "../models/projectModel.js"
 import fs from 'fs'
+import { calculateProfitWithStockAndSales } from "../handler/trader-dashbaord-handler.js"
 
 
 configDotenv()
@@ -360,6 +361,22 @@ export const AddNewProductSale = async (req, res) => {
 
 
 
+export const UpdateProjectSales = async (req, res) => {
+  try {
+    console.log("here");
+      const data = req.body
+      console.log(data);
+      const ack = await TraderSalesModel.findOneAndUpdate({_id: data._id}, {quantity: data.quantity, price: data.price, amount: parseInt(data.quantity)*parseInt(data.price), status: data.status})
+      console.log(ack);
+      return res.json({ message: "Sales added Successfully"})
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+
 export const GetProductSales = async (req, res) => {
   try {
       // const existance = await UserModel.findOne({name: userModel.phone})
@@ -403,6 +420,7 @@ export const DeleteSales = async (req, res) => {
         await StockModel.findOneAndUpdate({_id: sale.stock_id}, {status:"Processing"})
         const ack = await TraderSalesModel.deleteOne({ _id: sales_id })
         // const Offers_Ack = await OfferModel.deleteMany({ sales_id: sales_id })
+        const ack2 = await WholesalerOrderModel.findOneAndDelete({sales_id: sales_id})
         console.log(ack);
         if(!ack){
             return res.status(400).json({ message: "Failed to deleted sales", resData: undefined })
@@ -440,14 +458,19 @@ export const GetSalesOffersList = async (req, res) => {
 
 
 export const GetTransactions = async (req, res) => {
-  try {
+  try { 
       const {user_id} = req.body
       const order1 = await OrderModel.find({ $or: [{buyer_id: user_id}, {seller_id: user_id}]})
-      .populate(['buyer_id', 'seller_id', 'sales_id', 'product_id', 'offer_id']).sort({createdAt: -1})
+      .populate(['buyer_id', 'seller_id', 'sales_id', 'product_id', 'offer_id'])
+      .sort({createdAt: -1})
+      .then((order1) => order1.filter((odr) => odr.sales_id.quantity !== null));
       const order2 = await WholesalerOrderModel.find({ $or: [{buyer_id: user_id}, {seller_id: user_id}]})
-      .populate(['buyer_id', 'seller_id', 'sales_id', 'stock_id', 'offer_id']).sort({createdAt: -1})
+      .populate(['buyer_id', 'seller_id', 'sales_id', 'stock_id', 'offer_id'])
+      .sort({createdAt: -1})
+      .then((order2) => order2.filter((odr) => odr.sales_id.quantity !== null))
       const mergeOrders = [...order1, ...order2]
       mergeOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      console.log(mergeOrders);
       return res.json({ message: "Operation Success", resData: mergeOrders })
 
   } catch (error) {
@@ -503,6 +526,99 @@ export const GetFilteredAvailableData = async (req, res) => {
       });
       
       return res.json({ message: "Operation Success", resData: filteredProducts })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+
+// ========================================= Dashbaord Analytics =================================================
+
+
+
+export const GetDashboardAnalyticsData = async (req, res) => {
+    try {
+        const {user_id} = req.body
+        // ----------- Total Cost ---------------------
+        const expenses = await StockModel.find({owner: user_id});
+
+        const totalCost = expenses.reduce((sum, item) => sum + item.amount + item.transport_cost, 0);
+
+        // ------------- Total Sales ----------------------
+        
+        const sales = await TraderSalesModel.find({status: 'Sold Out'})
+        .populate({
+            path: 'stock_id',
+            match: {owner: user_id},
+            select: '_id'
+        }).then((sales) => sales.filter((sale) => sale.stock_id !== null));
+        const totalSales = sales.reduce((sum, item) => sum + item.amount, 0);
+        const totalProfit = totalSales - totalCost
+
+        // ------------- Total Profit per product ----------------------
+
+
+        const products = await StockModel.find({owner: user_id})
+        const uniqueProductNames = [...new Set(products.map(item => item.product_name))];
+
+        const productWithProfit = await calculateProfitWithStockAndSales(user_id, uniqueProductNames)
+        console.log(productWithProfit);
+
+        // ------------- Sales over month ----------------------
+        
+        let salesOverMonth = sales
+        .map(item => ({
+            amount: item.amount,
+            collection_date: new Date(item.collection_date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            }),
+        }))
+        .sort((a, b) => new Date(a.collection_date) - new Date(b.collection_date))
+        salesOverMonth = salesOverMonth.slice(salesOverMonth.length-8, salesOverMonth.length)
+
+        console.log(salesOverMonth);
+
+        return res.json({ message: "Operation Success", resData: {
+            totalCost,
+            totalSales,
+            totalProfit,
+            productWithProfit,
+            salesOverMonth
+        } })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "internal server error" })
+    }
+}
+
+
+
+
+export const OrderCancellation = async (req, res) => {
+  try {
+      const {order_id} = req.body
+      const order = await WholesalerOrderModel.findOne({_id: order_id})
+      const sales = await TraderSalesModel.findOneAndUpdate({_id: order.sales_id}, {status: 'Ready to sell'}, { new: true })
+      await WholesalerOfferModel.findOneAndUpdate({_id: order.offer_id}, {status: 'Cancelled'}, { new: true })
+      await WholesalerOrderModel.deleteOne({_id: order_id})
+
+
+      return res.json({ message: "Operation Success", resData: {} })
+
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "internal server error" })
+  }
+}
+
+export const GetPercentage = async (req, res) => {
+  try {
+      return res.json({ message: "Operation Success", resData: {percentage: 0.15} })
 
   } catch (error) {
       console.log(error);

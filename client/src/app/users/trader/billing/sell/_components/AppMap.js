@@ -40,8 +40,8 @@ function AppMap({ transportInfo, setTransportInfo }) {
   const [cost, setCost] = useState('')
 
   const transportCost = {
-    'Large Truck': 200,
-    'Medium Truck': 150,
+    'Large Truck': 120,
+    'Medium Truck': 110,
     'Small Truck': 100,
   }
 
@@ -98,6 +98,7 @@ function AppMap({ transportInfo, setTransportInfo }) {
       alignItems='center'
       h='100%'
       w='100%'
+      className='transport-main-container'
     >
       <Box position='absolute' left={0} top={0} h='100%' w='100%'>
         {/* Google Map Box */}
@@ -120,15 +121,16 @@ function AppMap({ transportInfo, setTransportInfo }) {
         </GoogleMap>
       </Box>
       <Box
+      className='transport-select-container'
         p={4}
         borderRadius='lg'
         m={4}
         bgColor='#272727'
         shadow='base'
         minW='container.md'
-        zIndex='1'
+        zIndex='100'
       >
-        <HStack spacing={2} justifyContent='space-between'>
+        <HStack className='hstack' spacing={2} justifyContent='space-between'>
           <Box flexGrow={1}>
             <Autocomplete>
               <Input type='text' placeholder='From' color={'#eee'} bg={'#333'} ref={originRef}
@@ -193,8 +195,8 @@ function AppMap({ transportInfo, setTransportInfo }) {
             />
           </ButtonGroup>
         </HStack>
-        <HStack spacing={3} mt={4} justifyContent='space-between'>
-          <div style={{
+        <HStack className='hstack' spacing={3} mt={4} justifyContent='space-between'>
+          <div  style={{
             display: 'flex'
           }}>
             < Text color={'#eee'} width={'250px'} > Distance: {distance} </Text>

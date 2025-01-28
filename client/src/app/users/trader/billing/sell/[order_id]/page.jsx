@@ -15,11 +15,12 @@ import Slide from '@mui/material/Slide';
 import { createTheme, Stack, ThemeProvider, Tooltip } from '@mui/material';
 import TransportSelect from '../transport-select/page';
 import AppMap from '../_components/AppMap';
-import { ChakraProvider, theme } from '@chakra-ui/react'
+import { ChakraProvider, theme, useStatStyles } from '@chakra-ui/react'
 import PaymentsIcon from '@mui/icons-material/Payments';
 import PaidIcon from '@mui/icons-material/Paid';
-import { ConfirmOrder, ConfirmWholesalerOrder, GetOrderInfo, GetWholeSalerOrderInfo } from '@services/td-service/product_service';
-
+import { ConfirmOrder, ConfirmWholesalerOrder, GetOrderInfo, GetPercentage, GetWholeSalerOrderInfo, OrderCancellation } from '@services/td-service/product_service';
+import { red } from '@mui/material/colors';
+import '@styles/globals.css'
 
 // { transportInfo, setTransportInfo }
 
@@ -80,12 +81,28 @@ const Billing = ({params}) => {
 
 const [orderDetails, setOrderDetails] = React.useState()
 
+const [overPriced, setOverPriced] = React.useState(false)
+
+const checkPriceBound = async (order_info)=>{
+    const cost = (order_info.stock_id.amount + order_info.stock_id.transport_cost)/order_info.stock_id.quantity;
+    const sale_price = order_info.offer_id.price
+    const res = await GetPercentage(order_info.stock_id.product_name)
+    
+    const percent = cost + (cost*res.data.percentage)
+    console.log(sale_price);
+    console.log(percent);
+    console.log(sale_price > percent);
+    if(sale_price > percent){
+        setOverPriced(true)
+    }
+}   
 
 
 const fetchData = async ()=>{
     const res = await GetWholeSalerOrderInfo(order_id)
     if(res.status == 200){
         setOrderDetails(res.data)
+        checkPriceBound(res.data)
     }else{
         alert(res.message)
     }
@@ -115,7 +132,14 @@ const confirmOrder = async ()=>{
 }
 
 
-
+const cancelOrder = async ()=>{
+    const res = await OrderCancellation(orderDetails._id)
+    if(res.status){
+        router.push('/users/trader/dashboard')
+    }else{
+        alert(res.message)
+    }
+}
 
 
 
@@ -147,7 +171,7 @@ const confirmOrder = async ()=>{
                                     <div>
                                         <h5 className="font-size-18 mb-1">Transportation</h5>
                                         <p className="text-muted text-truncate mb-4">Select transport vehicle</p>
-                                        <div className="mb-3" style={{display: 'flex', gap: '20px'}}>
+                                        <div className="mb-3 transprot-add-button" style={{display: 'flex', gap: '20px'}}>
                                             <Button variant='outlined' onClick={()=> setMapDialog(false)} color='primary' startIcon={<LocalShippingIcon color='primary'/>}>Add Transport</Button>
                                             <Button variant='outlined' color='primary' startIcon={<RemoveCircleIcon color='primary'/>}
                                                 onClick={()=>{
@@ -268,7 +292,8 @@ const confirmOrder = async ()=>{
                 <div className="card checkout-order-summary">
                     <div className="card-body">
                         <div className="p-3 mb-3" style={{backgroundColor: '#344c31', borderRadius: '10px'}}>
-                            <h5 className="font-size-16 mb-0">Order Summary <span className="float-end ms-2">#{order_id}</span></h5>
+                        <h5 className="font-size-16 mb-0">Order Summary <span className="float-end ms-2 billing-order-id">#{order_id}</span></h5>
+                        <p className='phone-billing-order-id' style={{display: 'none', marginTop: '10px'}}>#{order_id}</p>
                         </div>
                         <div className="table-responsive order-table-wrapper">
                             <table className="table table-centered mb-0 table-nowrap order-table">
@@ -325,13 +350,29 @@ const confirmOrder = async ()=>{
                         </div>
                     </div>
                 </div>
-                <div style={{width: '100%', display:'flex', flexDirection:'row-reverse'}}>
-                    <Button variant='contained' color='success'
+                <div>
+                    {
+                        overPriced? (
+                            <div>
+                                <p className='color-red' style={{fontSize: '16px', fontWeight: 'bold'}}>Profit Limit Exceed By 15%</p> 
+                                <p style={{fontSize: '16px'}}>Wait for the admin approval.</p> 
+                            </div>
+                        ) : ''
+                    }
+                    
+                </div>
+                <div style={{width: '100%', display:'flex',gap: "20px", flexDirection:'row-reverse'}}>
+                    <Button variant='contained' style={{color: '#ececec'}} disabled={overPriced} color='success'
                         onClick={()=>{
                             confirmOrder()
                             
                         }}
                     >Confirm</Button>
+                    <Button variant='outlined' color='error'
+                            onClick={()=>{
+                                cancelOrder()
+                            }}
+                        >Cancel</Button>
                 </div>
             </div>
 

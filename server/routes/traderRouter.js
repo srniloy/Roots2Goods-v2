@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from 'multer';
-import { AddNewOffer, AddNewProductSale, AddOrders, AddWholesalerOrders, ConfirmOrder, ConfirmWholesalerOrder, DeleteSales, GetAvailableProducts, GetFilteredAvailableData, GetFilterSelestionData, GetOffersList, GetOrderInfo, GetProductDetails, GetProductSales, GetSalesOffersList, GetStockedProducts, GetStockedSlots, GetTransactions, GetWholesalerOffersList, GetWholeSalerOrderInfo, OfferCancellation } from "../controllers/trader-request-controller.js";
+import { AddNewOffer, AddNewProductSale, AddOrders, AddWholesalerOrders, ConfirmOrder, ConfirmWholesalerOrder, DeleteSales, GetAvailableProducts, GetDashboardAnalyticsData, GetFilteredAvailableData, GetFilterSelestionData, GetOffersList, GetOrderInfo, GetPercentage, GetProductDetails, GetProductSales, GetSalesOffersList, GetStockedProducts, GetStockedSlots, GetTransactions, GetWholesalerOffersList, GetWholeSalerOrderInfo, OfferCancellation, OrderCancellation, UpdateProjectSales } from "../controllers/trader-request-controller.js";
 
 
 const traderRouter = Router()
@@ -32,9 +32,14 @@ traderRouter.post('/confirm-order', ConfirmOrder)
 
 traderRouter.post('/confirm-wholesaler-order', ConfirmWholesalerOrder)
 
+traderRouter.post('/order-cancellation', OrderCancellation)
+
+
 traderRouter.post('/get-stocked-products', GetStockedProducts)
 
 traderRouter.post('/get-stocked-slots', GetStockedSlots)
+
+traderRouter.post('/update-sales', UpdateProjectSales)
 
 
 traderRouter.post('/add-product-sales', AddNewProductSale)
@@ -54,6 +59,15 @@ traderRouter.post('/get-transactions', GetTransactions)
 traderRouter.get('/get-filter-selection-data', GetFilterSelestionData)
 
 traderRouter.post('/get-filtered-available-products', GetFilteredAvailableData)
+
+
+// ========================================= Dashbaord Analytics =================================================
+
+traderRouter.post('/get-dashboard-analytics-data', GetDashboardAnalyticsData)
+
+traderRouter.post('/get-percentage', GetPercentage)
+
+
 
 
 

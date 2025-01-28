@@ -26,6 +26,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import UserContext from '@context/userContext';
+import '@styles/responsive.css'
+import MenuIcon from '@mui/icons-material/Menu';
+
 
 
 
@@ -157,6 +160,81 @@ const DashboardLayout = ({ children }) => {
       <ThemeProvider theme={createTheme({ palette: { mode: "dark" } })}>
         <UserContext.Provider value={{ user, setUser }}>
           <section className="farmer-dashboard">
+          <input type="checkbox" id="farmerBarInput" />
+            <div className="farmer-menu" id="farmerMenuBox">
+              <div className="phone-frmr-profile-part">
+                <div className="farmer-info-box phone-profile-info">
+                <div className="frmr-profile-img-style">
+                  <div className="frmr-profile-img-wrapper">
+                    {
+                      user?.img == '' || user?.img == undefined ? (
+                        <img src={'/images/user.png'} key={'/images/user.png'} alt='' className="frmr-profile-img" />
+                      ) : (
+                        <img src={`${SERVER_URL}/${user?.img}`} key={`${SERVER_URL}/${user?.img}`} alt='' className="frmr-profile-img" />
+                      )
+                    }
+                  </div>
+                </div>
+                  <div className="frmr-name-tag phone-frmr-name-tag">
+                    <h4 className="frmr-name-h4">{user?.name}</h4>
+                    <div className="frmr-title-p">{user?.type}</div>
+                  </div>
+                  <div className="frmr-profile-infos ">
+                    <ul role="list" className="frmr-profile-info-list">
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Phone</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.phone}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>NID</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.nid}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Birth Date</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.birth_date}</div>
+                        </div>
+                      </li>
+                      <li className="frmr-profile-info-list-item">
+                        <div className="frmr-profile-info-item-wrapper">
+                          <h5 className="frmr-profile-info-item-title-h3"><span className="text-span-2"></span>Address</h5>
+                          <div className="frmr-profile-info-item-data-p">{user?.address}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div style={{ marginBottom: '20px', marginTop: '10px' }}>
+                    <Button onClick={() => setUserUpdateDialog(true)} color='success' variant='outlined'>Edit Info</Button>
+                  </div>
+                </div>
+              </div>
+              <div style={{width: '100%', display:"flex", justifyContent: 'center', alignItems: 'center'}}>
+                <Button
+                  variant={'contained'}
+                  color={'success'}
+                  style={{
+                    color: '#fff',
+                    minWidth: '200px',
+                    marginTop: '20px'
+                  }}
+                  onClick={
+                    ()=>{
+                      HandleLogout("Farmer")
+                      setIsLoader(true)
+                    }
+                  }
+                >
+                  Logout
+                  <LogoutIcon className='fd-nav-icon' style={{marginLeft: '10px'}} />
+                </Button>
+
+              </div>
+              
+            </div>
             <div className="fd-header">
               <div className="w-layout-blockcontainer fd-nav-container w-container">
                 <div className="w-layout-hflex fd-nav-flex-box">
@@ -418,7 +496,11 @@ const DashboardLayout = ({ children }) => {
                       </div>
                     </Menu>
 
-                    <Tooltip title='Logout'>
+                    <label htmlFor="farmerBarInput" className="farmer-menu-bar-label">
+                        <MenuIcon className="menu-bar"/>
+                    </label>
+
+                    <Tooltip title='Logout' className='logout-button'>
                       <IconButton
                         size="large"
                         aria-label="show 17 new notifications"
@@ -437,7 +519,7 @@ const DashboardLayout = ({ children }) => {
                 </div>
               </div>
             </div>
-            <div className="fd-main-part">
+            <div className="fd-main-part" id='FarmerMainPart'>
               <div className="w-layout-blockcontainer fd-container w-container">
                 <div className="w-layout-hflex farmer-dashboard-flex">
                   <div className="frmr-profile-part">
@@ -492,22 +574,25 @@ const DashboardLayout = ({ children }) => {
                     </div>
                   </div>
                   <div className="frmr-other-part">
-                    <div className="w-layout-hflex frmr-tab-link-container">
-                      <div className="frmr-tab-link-wrapper" >
-                        <a className={end_pathname == "dashboard" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Business Analytics</a>
+                    <div className='tab-wrapper'>
+                      <div className="w-layout-hflex frmr-tab-link-container">
+                        <div className="frmr-tab-link-wrapper" >
+                          <a className={end_pathname == "dashboard" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Business Analytics</a>
+                        </div>
+                        <div className="frmr-tab-link-wrapper">
+                          <a className={urlPath.includes("trader/dashboard/products") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Buy Products</a>
+                        </div>
+                        <div className="frmr-tab-link-wrapper">
+                          <a className={urlPath.includes("trader/dashboard/stocks") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Stocked Products</a>
+                        </div>
+                        <div className="frmr-tab-link-wrapper">
+                          <a className={end_pathname == "transactions" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Transaction</a>
+                        </div>
+                        {/* <div className="frmr-tab-link-wrapper">
+                      <a className="fpd-tab-link" onClick={(e) => frmrTabClickAction(e)}>Traders</a>
+                    </div> */}
                       </div>
-                      <div className="frmr-tab-link-wrapper">
-                        <a className={urlPath.includes("trader/dashboard/products") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Buy Products</a>
-                      </div>
-                      <div className="frmr-tab-link-wrapper">
-                        <a className={urlPath.includes("trader/dashboard/stocks") ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Stocked Products</a>
-                      </div>
-                      <div className="frmr-tab-link-wrapper">
-                        <a className={end_pathname == "transactions" ? "fpd-tab-link active" : "fpd-tab-link"} onClick={(e) => frmrTabClickAction(e)}>Transaction</a>
-                      </div>
-                      {/* <div className="frmr-tab-link-wrapper">
-                    <a className="fpd-tab-link" onClick={(e) => frmrTabClickAction(e)}>Traders</a>
-                  </div> */}
+
                     </div>
                     <div className="frmr-tab-container" style={{
                       maxWidth: "100%",

@@ -12,7 +12,8 @@ import wholesalerRouter from './routes/wholesalerRouter.js'
 
 const app = express()
 
-app.use(cors({origin: "http://192.168.0.211:3000"}))
+app.use(cors({origin: "http://192.168.67.82:3000"}))
+// app.use(cors())
 app.use(bodyParser.json())
 
 configDotenv()

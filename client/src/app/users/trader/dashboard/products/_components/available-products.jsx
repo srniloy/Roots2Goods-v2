@@ -98,7 +98,7 @@ const AgroProducts = () => {
 
 
 
-      <Stack direction='row' justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
+      <Stack direction={{ xs: 'column', md: 'row' }} justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -143,7 +143,7 @@ const AgroProducts = () => {
         />
 
 
-        <Button variant="contained" style={{height: '50px'}} sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize='large' />}
+        <Button variant="contained" style={{height: '50px', marginBottom: '5px'}} sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize='large' />}
           onClick={()=>{
             getFilteredAvailableData()
           }}
@@ -154,15 +154,25 @@ const AgroProducts = () => {
 
 
 
-    <div className='styled-scrollbar' style={{marginTop: '10px', height: '470px', overflowY: 'scroll', padding: '20px',position:'relative'}}>
     
+    <div className='styled-scrollbar' style={{
+                width: '100%',
+                maxHeight: '450px',
+                minHeight: '450px',
+                position: 'relative',
+                zIndex: 0,
+                height: 'max-content',
+                overflow: 'scroll',
+                padding: '20px 0px',
+            }}>
+
     <SubLoader open={isSubLoad}/>
-    <Grid container gap={2}>
+    <Grid container gap={2} className='card-container'>
 
       {
         products?.map((product)=>{
           return (
-            <Card key={product?._id} sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
+            <Card key={product?._id} sx={{ width: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
               <CardActionArea onClick={()=>{
                 router.push('/users/trader/product/'+ product?._id)
                 setLoaderOpen(true)

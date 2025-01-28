@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import {OfferModel, OrderModel, ProjectExpenseModel, ProjectModel, ProjectSalesModel} from "../models/projectModel.js"
 import fs from 'fs'
 import { clearScreenDown } from "readline"
+import { calculateProfit, calculateProfitWithSeparateQueries, getExpensesAndSales } from "../handler/farmer-dashbaord-handler.js"
 
 configDotenv()
 
@@ -422,3 +423,73 @@ export const GetTransactions = async (req, res) => {
         res.status(500).json({ error: "internal server error" })
     }
 }
+
+
+
+// ========================================= Dashbaord Analytics =================================================
+
+
+
+export const GetDashboardAnalyticsData = async (req, res) => {
+    try {
+        const {user_id} = req.body
+        // ----------- Total Cost ---------------------
+        const expenses = await ProjectExpenseModel.find()
+        .populate({
+            path: 'project_id',
+            match: {created_by: user_id},
+            select: '_id'
+        }).then((expenses) => expenses.filter((expense) => expense.project_id !== null));
+
+        const totalCost = expenses.reduce((sum, item) => sum + item.cost, 0);
+
+        // ------------- Total Sales ----------------------
+        
+        const sales = await ProjectSalesModel.find({status: 'Sold Out'})
+        .populate({
+            path: 'project_id',
+            match: {created_by: user_id, status: 'Running'},
+            select: '_id'
+        }).then((sales) => sales.filter((sale) => sale.project_id !== null));
+
+        const totalSales = sales.reduce((sum, item) => sum + item.amount, 0);
+        const totalProfit = totalSales - totalCost
+
+        // ------------- Total Profit per product ----------------------
+
+
+        const products = await ProjectModel.find({created_by: user_id})
+        const uniqueProductNames = [...new Set(products.map(item => item.product_name))];
+
+        const productWithProfit = await calculateProfitWithSeparateQueries(user_id, uniqueProductNames)
+
+        // ------------- Sales over month ----------------------
+        
+        let salesOverMonth = sales
+        .map(item => ({
+            amount: item.amount,
+            collection_date: new Date(item.collection_date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            }),
+        }))
+        .sort((a, b) => new Date(a.collection_date) - new Date(b.collection_date))
+        salesOverMonth = salesOverMonth.slice(salesOverMonth.length-5, salesOverMonth.length)
+
+        console.log(salesOverMonth);
+
+        return res.json({ message: "Operation Success", resData: {
+            totalCost,
+            totalSales,
+            totalProfit,
+            productWithProfit,
+            salesOverMonth
+        } })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "internal server error" })
+    }
+}
+

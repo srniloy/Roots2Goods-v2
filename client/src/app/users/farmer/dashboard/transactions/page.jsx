@@ -131,49 +131,49 @@ const Transactions = (props) => {
                             if(column.id == 'date'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {(row.createdAt).split('T')[0]}
+                                  {(row.createdAt).split('T')[0] || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'order_id'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row._id}
+                                  {row._id || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'buyer_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.buyer_id.name}
+                                  {row.buyer_id.name || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'product_name'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.product_id.product_name}
+                                  {row.product_id.product_name || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'quantity'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.sales_id.quantity}
+                                  {row.sales_id.quantity || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'price'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row.sales_id.price}
+                                  {row.sales_id.price || ''}
                                 </TableCell>
                               );
                             }
                             else if(column.id == 'amount'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {(row.sales_id.quantity*row.sales_id.price).toLocaleString('en-US')}
+                                  {(row.sales_id.quantity*row.sales_id.price).toLocaleString('en-US') || ''}
                                 </TableCell>
                               );
                             }

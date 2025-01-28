@@ -358,9 +358,9 @@ const ProductSalesTable = ({productDetails}) => {
             {"Send Offer"}
             </DialogTitle>
             <DialogContent>
-                <form>
-                    <TextField
-                        style={{ width: "400px", margin: "5px" }}
+                <form className='dialog-form' style={{width: '420px'}}>
+                    <TextField 
+                        style={{ width: "100%", margin: "5px" }}
                         type="number"
                         label="Quantity"
                         variant="outlined"
@@ -374,7 +374,7 @@ const ProductSalesTable = ({productDetails}) => {
                         />
                         <br />
                         <TextField
-                        style={{ width: "400px", margin: "5px" }}
+                        style={{ width: "100%", margin: "5px" }}
                         type="number"
                         label="Price (per kg)"
                         variant="outlined"

@@ -47,6 +47,7 @@ const StockedProducts = () => {
     <>
      
       <Grid  container gap={2}
+      className='card-container'
       style={{
         marginTop: '50px',
         position: 'relative',
@@ -54,7 +55,7 @@ const StockedProducts = () => {
         {
           products?.map((product)=>{
             return (
-              <Card key={product.product_name} sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
+              <Card key={product.product_name} sx={{ width: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
                 <CardActionArea onClick={()=>{
                   router.push(`/users/trader/stock/${product?.product_name.replace(' ', '-')}`)
                   setLoaderOpen(true)

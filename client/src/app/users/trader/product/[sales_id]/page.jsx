@@ -96,7 +96,7 @@ const ProjectDetails = ({params}) => {
       <div className="w-layout-blockcontainer fpd-other-part-container w-container">
         <h1 className="fpd-project-detail-heading" style={{marginTop: '10px'}}>{productDetails?.project_id?.title} </h1>
         <div className="fpd-basic-info" style={{marginTop: '50px', marginBottom: '50px'}}>
-          <Stack direction={'row'} gap={'20px'}>
+            <Stack className='product-details-info-container' direction={'row'} gap={'20px'} style={{ marginTop: '30px', width: '100%' }} sx={{ flexWrap: 'wrap' }}>
 
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                   <div style={{backgroundColor: '#244441' ,
@@ -104,7 +104,7 @@ const ProjectDetails = ({params}) => {
                   gap: '10px',
                   padding: '20px 30px',
                   borderRadius: '10px'
-                  }}>
+                  }} className='product-detail-card'>
                     <InventoryIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Product Type</h6>
@@ -121,7 +121,7 @@ const ProjectDetails = ({params}) => {
                   gap: '10px', 
                   padding: '20px 30px',
                   borderRadius: '10px'
-                  }}>
+                  }} className='product-detail-card'>
                     <AccountBoxIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Farmer Name</h6>
@@ -136,7 +136,7 @@ const ProjectDetails = ({params}) => {
                   gap: '10px', 
                   padding: '20px 30px',
                   borderRadius: '10px'
-                  }}>
+                  }} className='product-detail-card'>
                     <LocationOnIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Location</h6>
@@ -151,7 +151,7 @@ const ProjectDetails = ({params}) => {
                   gap: '10px', 
                   padding: '20px 30px',
                   borderRadius: '10px'
-                  }}>
+                  }} className='product-detail-card'>
                     <CalendarMonthIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Experience</h6>
@@ -169,7 +169,7 @@ const ProjectDetails = ({params}) => {
                   gap: '10px', 
                   padding: '20px 30px',
                   borderRadius: '10px'
-                  }}>
+                  }} className='product-detail-card'>
                     <ContactPhoneIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Phone Number</h6>

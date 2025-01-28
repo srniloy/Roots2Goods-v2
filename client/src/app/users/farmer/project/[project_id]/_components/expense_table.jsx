@@ -35,7 +35,7 @@ const columns = [
       {
         id: 'Actions',
         label: 'Actions',
-        minWidth: 80,
+        minWidth: 120,
         align: 'center',
       },
    
@@ -101,7 +101,7 @@ const ExpenseTable = ({projectExpenses, setProjectExpenses, rerender, setRerende
 
   return (
     <div key={'kalskdfao'} style={{position: 'relative', width: '100%', height: '100%'}}>
-        <Paper key={'alkdfjaifeaoir'} sx={{ width: '100%', overflow: 'hidden', margin: '50px 0', backgroundColor: "transparent" }}>
+        <Paper key={'alkdfjaifeaoir'} sx={{ width: '100%', overflowX: 'scroll', margin: '50px 0', backgroundColor: "transparent" }}>
             <TableContainer sx={{ maxHeight: 500, minHeight: 300 }}>
                 <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -198,9 +198,9 @@ const ExpenseTable = ({projectExpenses, setProjectExpenses, rerender, setRerende
             {"Update Expenses"}
             </DialogTitle>
             <DialogContent>
-                <form style={{width: '420px'}}>
+                <form className="dialog-form" style={{width: '420px'}}>
                     <TextField
-                    style={{ width: "400px", margin: "10px" }}
+                    style={{ width: "100%", margin: "10px" }}
                     type="text"
                     value={expenseEditData.sector}
                     onChange={(e)=> {
@@ -214,7 +214,7 @@ const ExpenseTable = ({projectExpenses, setProjectExpenses, rerender, setRerende
                     />
                     <br />
                     <TextField
-                    style={{ width: "400px", margin: "10px" }}
+                    style={{ width: "100%", margin: "10px" }}
                     type="number"
                     label="Measurement Unit"
                     value={expenseEditData.unit}
@@ -228,7 +228,7 @@ const ExpenseTable = ({projectExpenses, setProjectExpenses, rerender, setRerende
                     />
                     <br />
                     <TextField
-                    style={{ width: "400px", margin: "10px" }}
+                    style={{ width: "100%", margin: "10px" }}
                     type="number"
                     label="Cost"
                     value={expenseEditData.cost}
@@ -241,7 +241,7 @@ const ExpenseTable = ({projectExpenses, setProjectExpenses, rerender, setRerende
                     variant="outlined"
                     />
                     <TextField
-                    style={{ width: "400px", margin: "10px" }}
+                    style={{ width: "100%", margin: "10px" }}
                     type="date"
                     value={expenseEditData.date}
                     onChange={(e)=> {

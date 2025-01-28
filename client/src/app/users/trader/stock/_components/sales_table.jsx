@@ -19,7 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Badge, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 // import { DeleteExpense, GetOffersList, UpdateProjectExpense, UpdateProjectSales, UpdateStatusOnOfferAcceptance } from '@services/fd-service/project_service';
 import ConfirmationAlert from '@components/ui/confirmation-alert';
-import { DeleteSales, GetSalesOffersList } from '@services/td-service/product_service';
+import { DeleteSales, GetSalesOffersList, UpdateProjectSales } from '@services/td-service/product_service';
 import { UpdateStatusOnOfferAcceptance } from '@services/wd-service/product_service';
 
 
@@ -54,7 +54,7 @@ const columns = [
   {
       id: 'Actions',
       label: 'Actions',
-      minWidth: 80,
+      minWidth: 120,
       align: 'center',
     },
    
@@ -150,12 +150,13 @@ const SalesTable = ({productSales, setProductSales, rerender, setRerender}) => {
   }
 
   const updateSales = async ()=>{
-    // const res = await UpdateProjectSales(salesEditData)
-    // if(res.status == 200){
-    //   setRerender(!rerender)
-    // }else{
-    //   alert(res.message)
-    // }
+    console.log(salesEditData);
+    const res = await UpdateProjectSales(salesEditData)
+    if(res.status == 200){
+      setRerender(!rerender)
+    }else{
+      alert(res.message)
+    }
   }
 
   console.log(productSales);
@@ -464,9 +465,9 @@ const onAcceptanceAction = async ()=>{
             {"Update Sales"}
             </DialogTitle>
             <DialogContent>
-                    <form style={{width: '410px'}}>
+                    <form className="dialog-form" style={{width: '410px'}}>
                         <TextField
-                        style={{ width: "400px", margin: "5px" }}
+                        style={{ width: "100%", margin: "5px" }}
                         type="number"
                         label="Quantity (kg)"
                         variant="outlined"
@@ -479,7 +480,7 @@ const onAcceptanceAction = async ()=>{
                         }}
                         />
                         <TextField
-                        style={{ width: "400px", margin: "5px" }}
+                        style={{ width: "100%", margin: "5px" }}
                         type="number"
                         label="Price (per kg)"
                         variant="outlined"
@@ -491,7 +492,7 @@ const onAcceptanceAction = async ()=>{
                         }))
                         }}
                         />
-                        <FormControl style={{ width: "400px", margin: "10px 5px" }}>
+                        <FormControl style={{ width: "100%", margin: "10px 5px" }}>
                         <InputLabel id="demo-simple-select-label">Status</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -510,7 +511,7 @@ const onAcceptanceAction = async ()=>{
                         </Select>
                         </FormControl>
                         <TextField
-                        style={{ width: "400px", margin: "5px" }}
+                        style={{ width: "100%", margin: "5px" }}
                         type="date"
                         label="Collection Date"
                         focused
