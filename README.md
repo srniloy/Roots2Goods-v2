@@ -33,6 +33,9 @@ Agricultural supply chains often face inefficiencies, lack of transparency, and 
 
 Drive link: [roots2goods_video.mp4](https://drive.google.com/file/d/15qqCNpc1ppAuw2QLhaJSo6Q82gVNls3p/view?usp=sharing)
 
+
+[![Watch the video](https://raw.githubusercontent.com/srniloy/Roots2Goods-v2/refs/heads/master/client/public/images/thumb.png)](https://drive.google.com/file/d/15qqCNpc1ppAuw2QLhaJSo6Q82gVNls3p/preview)
+
 ## **Team:**
 
 - Shahriar Rahman Niloy - 011202271
