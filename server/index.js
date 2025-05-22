@@ -3,10 +3,10 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import { configDotenv } from 'dotenv'
 import cors from 'cors'
-import authRouter from '../routes/authRouter.js'
-import farmerRouter from '../routes/farmerRouter.js'
-import traderRouter from '../routes/traderRouter.js'
-import wholesalerRouter from '../routes/wholesalerRouter.js'
+import authRouter from './routes/authRouter.js'
+import farmerRouter from './routes/farmerRouter.js'
+import traderRouter from './routes/traderRouter.js'
+import wholesalerRouter from './routes/wholesalerRouter.js'
 
 
 
