@@ -3,10 +3,10 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import { configDotenv } from 'dotenv'
 import cors from 'cors'
-import authRouter from './routes/authRouter.js'
-import farmerRouter from './routes/farmerRouter.js'
-import traderRouter from './routes/traderRouter.js'
-import wholesalerRouter from './routes/wholesalerRouter.js'
+import authRouter from '../routes/authRouter.js'
+import farmerRouter from '../routes/farmerRouter.js'
+import traderRouter from '../routes/traderRouter.js'
+import wholesalerRouter from '../routes/wholesalerRouter.js'
 
 
 
@@ -39,6 +39,10 @@ app.get('/api', (req, res) => {
     res.json({ user1: "niloy", user2: "toushif", user3: "apu" })
 })
 
+app.get('/', (req, res) => {
+    res.send("Welcome to the live server!")
+})
+
 app.post('/api/create-account', (req, res) => {
     const user = req.body
     console.log(user)
@@ -50,3 +54,5 @@ app.use('/auth', authRouter)
 app.use('/farmer', farmerRouter)
 app.use('/trader', traderRouter)
 app.use('/wholesaler', wholesalerRouter)
+
+export default app
