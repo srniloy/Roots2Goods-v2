@@ -164,21 +164,21 @@ const DashboardLayout = ({ children }) => {
       <ThemeProvider theme={createTheme({ palette: { mode: "dark" } })}>
         <UserContext.Provider value={{ user, setUser }}>
           <section className="farmer-dashboard">
-            <input type="checkbox" id="farmerBarInput" />
+            <input type="checkbox" id="farmerBarInput" className='farmer-bar-input' />
             <div className="farmer-menu" id="farmerMenuBox">
               <div className="phone-frmr-profile-part">
                 <div className="farmer-info-box phone-profile-info">
-                <div className="frmr-profile-img-style">
-                  <div className="frmr-profile-img-wrapper">
-                    {
-                      user?.img == '' || user?.img == undefined ? (
-                        <img src={'/images/user.png'} key={'/images/user.png'} alt='' className="frmr-profile-img" />
-                      ) : (
-                        <img src={`${SERVER_URL}/${user?.img}`} key={`${SERVER_URL}/${user?.img}`} alt='' className="frmr-profile-img" />
-                      )
-                    }
+                  <div className="frmr-profile-img-style">
+                    <div className="frmr-profile-img-wrapper">
+                      {
+                        user?.img == '' || user?.img == undefined ? (
+                          <img src={'/images/user.png'} key={'/images/user.png'} alt='' className="frmr-profile-img" />
+                        ) : (
+                          <img src={`${SERVER_URL}/${user?.img}`} key={`${SERVER_URL}/${user?.img}`} alt='' className="frmr-profile-img" />
+                        )
+                      }
+                    </div>
                   </div>
-                </div>
                   <div className="frmr-name-tag phone-frmr-name-tag">
                     <h4 className="frmr-name-h4">{user?.name}</h4>
                     <div className="frmr-title-p">{user?.type}</div>
@@ -216,7 +216,7 @@ const DashboardLayout = ({ children }) => {
                   </div>
                 </div>
               </div>
-              <div style={{width: '100%', display:"flex", justifyContent: 'center', alignItems: 'center'}}>
+              <div style={{ width: '100%', display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                 <Button
                   variant={'contained'}
                   color={'success'}
@@ -226,20 +226,20 @@ const DashboardLayout = ({ children }) => {
                     marginTop: '20px'
                   }}
                   onClick={
-                    ()=>{
+                    () => {
                       HandleLogout("Farmer")
                       setIsLoader(true)
                     }
                   }
                 >
                   Logout
-                  <LogoutIcon className='fd-nav-icon' style={{marginLeft: '10px'}} />
+                  <LogoutIcon className='fd-nav-icon' style={{ marginLeft: '10px' }} />
                 </Button>
 
               </div>
-              
+
             </div>
-                    
+
             <div className="fd-header">
               <div className="w-layout-blockcontainer fd-nav-container w-container">
                 <div className="w-layout-hflex fd-nav-flex-box">
@@ -279,7 +279,7 @@ const DashboardLayout = ({ children }) => {
                   </Tooltip> */}
 
                     <Menu
-                      sx={{ mt: '45px' }}
+                      sx={{ mt: '45px', alignItems: 'center' }}
                       id="menu-appbar"
                       anchorEl={anchorElUser}
                       anchorOrigin={{
@@ -502,9 +502,9 @@ const DashboardLayout = ({ children }) => {
                       </div>
                     </Menu>
                     <label htmlFor="farmerBarInput" className="farmer-menu-bar-label">
-                        <MenuIcon className="menu-bar"/>
+                      <MenuIcon className="menu-bar" />
                     </label>
-                    
+
 
                     <Tooltip title='Logout' className='logout-button'>
                       <IconButton

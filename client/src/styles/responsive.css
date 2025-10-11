@@ -1,6 +1,9 @@
 #farmerBarInput{
     display: none;
 }
+.farmer-menu-bar-label{
+    display: none;
+}
 
 @media (max-width: 640px) {
     .frmr-total-calculations {
@@ -48,9 +51,6 @@
     .logout-button{
         display: none;
     }
-    .menu-bar-label{
-        display: block;
-    }
     .farmer-menu{
     flex-direction: column;
     position: absolute;
@@ -72,12 +72,15 @@
     #farmerBarInput:checked ~ #FarmerMainPart{
         display: none;
     }
+    #farmerBarInput:checked ~ .menu-bar{
+        display: block;
+    }
     .farmer-menu-bar-label{
+        display: block;
     cursor: pointer;
     }
     .farmer-menu-bar-label .menu-bar{
     color: white;
-    margin-bottom: 10px;
     }
     .project-logo{
         height: 35px !important;
