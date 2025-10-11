@@ -1,15 +1,9 @@
 import { NextResponse } from 'next/server'
-// import { GetCookie } from './utils/cookie-management'
 
 
 export async function middleware(request) {
 
-    // if (request.nextUrl.pathname.endsWith('/') || request.nextUrl.pathname.endsWith('/auth')) {
-    //     const cookie = request.cookies.get('userToken')
-    //     if (cookie) {
-    //         return NextResponse.redirect(new URL('/dashboard', request.url))
-    //     }
-    // }
+
     if (request.nextUrl.pathname.startsWith('/users/farmer')) {
         const cookie = request.cookies.get('FarmerToken')
 

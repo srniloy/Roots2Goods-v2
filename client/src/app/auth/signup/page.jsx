@@ -37,7 +37,7 @@ import { HandleSignup } from "@services/auth";
 const SignUp = () => {
 
   const router = useRouter()
-
+  const [isLoad, setIsLoad] = React.useState(false);
   const [openTerms, setOpenTerms] = React.useState(false);
   const [termsCheckButton, setTermsCheckButton] = React.useState(false);
   const [submitLoading, setSubmitLoading] = React.useState(false);
@@ -72,6 +72,7 @@ const SignUp = () => {
   const formSubmitHandle = async (e) => {
     e.preventDefault()
     console.log(userData)
+    setIsLoad(true)
     const response = await HandleSignup(userData)
     console.log(response)
     setIsSnackBarOpen(true)
@@ -82,12 +83,15 @@ const SignUp = () => {
     if (response.status === 200) {
       router.push('/auth/signin')
     }
+    setIsLoad(true)
+
   }
 
 
 
   return (
     <>
+      <Loader open={isLoad} />
       <section className="signup-container">
         <Stack direction="row" className="login-wrapper" height="100vh" width="100vw">
           <div className="login-bg-img"></div>

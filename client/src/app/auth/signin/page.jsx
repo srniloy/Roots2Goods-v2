@@ -75,6 +75,7 @@ const Signin = () => {
 
   const formSubmitHandle = async (e) => {
     e.preventDefault()
+    setIsLoad(true)
     console.log(userData)
     const response = await HandleSignin(userData)
     setIsSnackBarOpen(true)
@@ -83,9 +84,10 @@ const Signin = () => {
       alertType: alertType[response.status] || "info"
     });
     if (response.status === 200) {
-      const {token, user_type} = response.data.resData;
+      const { token, user_type } = response.data.resData;
       router.push(`/users/${user_type.toLowerCase()}/dashboard`)
     }
+    setIsLoad(false)
   }
 
 
